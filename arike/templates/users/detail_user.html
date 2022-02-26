@@ -3,36 +3,40 @@
 
 {% block content %}
     {% include 'components/sidenav.html' %} 
-    <div class="ml-[320px] bg-primary_bg min-h-screen px-[20%]">
-        {% include 'components/details_header.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[20%] flex flex-col">
+        {% include 'components/details_header.html' with object_name=object.get_full_name object_id=object.id %}
 
-        <h3 class="text-xl text-primary_color font-bold">{{ object.pretty_kind }}</h3>
+        <h4 class="text-2xl font-bold text-primary_color mt-14 mb-3">Profile</h4>
         
-        <div class="h-14 w-4/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
-            <label class="block text-sm text-[#6E7191] pt-[2px]">Name</label>
-            <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.name }}</span>
-        </div> 
+        <div class="w-full flex flex-row flex-wrap justify-between">
+            <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                <label class="block text-sm text-[#6E7191] pt-[2px]">First Name</label>
+                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.first_name }}</span>
+            </div> 
+            <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                <label class="block text-sm text-[#6E7191] pt-[2px]">Last Name</label>
+                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.last_name }}</span>
+            </div> 
+            <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                <label class="block text-sm text-[#6E7191] pt-[2px]">Email</label>
+                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.email }}</span>
+            </div> 
+            <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                <label class="block text-sm text-[#6E7191] pt-[2px]">District</label>
+                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.district }}</span>
+            </div> 
+        </div>
         
-        <div class="h-28 w-4/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
-            <label class="block text-sm text-[#6E7191] pt-[2px]">Address</label>
-            <span class="block w-[95%] h-20 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 pt-2 focus:ring-0">{{ object.address }}</span>
-        </div> 
-        
-        <div class="h-14 w-4/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
-            <label class="block text-sm text-[#6E7191] pt-[2px]">Ward</label>
-            <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.ward }}</span>
-        </div> 
-        
-        <div class="w-4/5 flex flex-row justify-between">
-            <div class="h-14 w-[46%] inline-block pl-6 py-1 rounded-2xl bg-white mt-3 mb-5">
-                <label class="block text-sm text-[#6E7191] pt-[2px]">Pin code</label>
-                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.pin_code }}</span>
-            </div>
-    
-            <div class="h-14 w-[46%] inline-block pl-6 py-1 rounded-2xl bg-white mt-3 mb-5">
-                <label class="block text-sm text-[#6E7191] pt-[2px]">Phone number</label>
-                <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.phone_number }}</span>
-            </div>
+        <h4 class="text-2xl font-bold text-primary_color mt-8 mb-3">Facility</h4>
+        <div id="assigned" class="w-[300px] py-5 pl-5 rounded-2xl bg-secondary_bg flex flex-col my-2">
+            <h4 class="text-[18px] font-bold pb-0.5">Assigned facility</h4>
+            <h5 id="assigned_facility_name" class="text-[16px] font-semibold">{{ object.facility }}</h5>
+            <p id="assigned_facility_address" class="text-sm font-medium">{{ object.facility.address }}</p>
+        </div>
+
+        <h4 class="text-2xl font-bold text-primary_color mt-8 mb-3">Role</h4>
+        <div class="h-14 w-2/5 flex flex-row items-center justify-start rounded-2xl bg-white pl-6">
+            <span class="text-[16px] font-medium text-primary_color">{{ object.pretty_role }}</span>
         </div>
 
     </div>
