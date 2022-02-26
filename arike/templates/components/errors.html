@@ -1,0 +1,7 @@
+{% if errors %} 
+    <ul class="mt-3 list-disc">
+        {% for error in errors %} 
+            <li class="text-xs text-warning mt-1 last:mb-2">{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

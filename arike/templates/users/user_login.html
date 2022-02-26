@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Arike | Login{% endblock %}
+
+{% block content %} 
+    <div class="w-screen h-screen flex flex-row">
+        <div class="w-1/2 h-full flex flex-col justify-center items-center bg-primary_color">
+            <h1 class="text-6xl font-bold text-white">Arike</h1>
+            <p class="text-lg text-white font-normal leading-8 tracking-wider mt-4">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+        </div>
+        <div class="w-1/2 flex flex-col justify-center items-center">
+            <h3 class="text-4xl font-medium text-primary_color">Authorized Login</h3>
+            <form action="" method="post" class="flex flex-col mt-6">
+                <input type="email" name="" id="" placeholder="Email" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
+                <input type="password" name="" id="" placeholder="Password" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
+                <button type="submit" class="h-14 w-[380px] rounded-2xl border-0 bg-primary_color mt-8 text-white text-lg tracking-wider">Login</button>
+            </form>
+            <a href="/register" class="flex flex-row items-center justify-center h-14 w-[380px] rounded-2xl border-0 bg-primary_color mt-8 text-white text-lg tracking-wider">Register</button>
+        </div>
+    </div>
+{% endblock %}

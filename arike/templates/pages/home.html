@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Arike | Home {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg h-screen">
+        <div class="flex flex-col items-center pt-16 pb-12">
+            <img class="w-24 h-24 rounded-full" src="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MXwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTY0NTEyMTE1NQ&ixlib=rb-1.2.1&q=80&w=1080" alt="Profile Picture">
+            <h3 class="text-2xl font-semibold text-primary_color my-3 tracking-wide">Rahul Tiwari</h3>
+            <span class="text-sm text-white px-8 py-1 rounded-[80px] bg-primary_color tracking-widest">District Admin</span>
+        </div>
+        <p class="h-[2px] w-3/4 bg-[#E0E0E0] mx-auto my-2"></p>
+
+        <div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white">
+            <label for='name' class="block text-sm text-[#6E7191] tracking-wider">First Name</label>
+            <input type='text' name='name' value="Rahul" class="block h-6 leading-5 text-[16px] text-[#14142B] tracking-wider border-0 outline-0 p-0 focus:ring-0">
+        </div>
+
+    </div>
+{% endblock %}

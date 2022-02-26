@@ -1,0 +1,15 @@
+<div class="w-2/5 flex flex-col items-start justify-between rounded-2xl bg-white py-3 my-4 mx-8">
+    <div class="flex flex-row items-center justify-between w-full px-6">
+        <h2 class="text-lg font-bold text-primary_color">{{ facility.name }}</h2>
+        <span class="text-sm px-4 py-[2px] rounded-2xl bg-secondary_bg">{{ facility.pretty_kind }}</span>
+    </div>
+    <div class="w-full px-6">
+        <p class="w-3/4 text-sm font-medium text-grey_light my-2">{{ facility.address }}</p>
+        <p class="text-[16px] font-bold text-grey_light">{{ facility.ward }}</p>
+    </div>
+    <p class="w-full h-[2px] bg-secondary_bg my-2"></p>
+    <div class="w-full flex flex-row items-center justify-between my-2 px-6">
+        <span class="text-primary_color font-bold text-sm">{{ facility.phone_number }}</span>
+        <a href="/facilities/{{ facility.id }}" class="px-5 border-2 border-primary_color rounded-lg py-1 text-sm text-primary_color font-medium">View</a>
+    </div>
+</div>

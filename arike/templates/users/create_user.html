@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} Create User {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+
+    <div class="ml-[320px] bg-primary_bg h-screen">
+        <div class="flex flex-col items-start justify-start py-16 px-64">
+            <h2 class="text-4xl font-extrabold text-primary_color">New Users</h2>
+            <h4 class="text-2xl font-bold text-primary_color mt-14 mb-3">Profile</h4>
+            <form action="" method="post" class="flex flex-row flex-wrap">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    {% if field.html_name == 'district' %}
+                    <div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                        <select name="{{field.html_name}}" id="{{field.auto_id}}" class="w-full h-full border-0 rounded-[12px] bg-white pt-[4px] pl-1 focus:ring-0">
+                            <option value="" disabled selected class="pl-4 text-[#6E7191]">District</option>
+                            {% for x, y in form.fields.district.choices %} 
+                                <option value="{{ x }}" {% if form_field.value == x %} selected {% endif %} class="pl-3">{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        {% include 'components/errors.html' with errors=field.errors %}
+                    </div>
+                    {% else %}
+                        {% include 'components/input.html' %} 
+                    {% endif %}
+                {% endfor %}
+
+                <p class="w-full text-xl font-bold my-9">User will receive an email to continue registration</p>
+
+                {% include 'components/button.html' with btn_type="submit" btn_text="Next" %}
+            </form>
+        </div>
+    </div>
+    
+{% endblock %}

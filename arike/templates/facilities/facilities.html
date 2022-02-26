@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Facilities {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg h-screen px-12">
+        {% include 'components/list_header.html' %}
+        <div class="flex flex-row flex-wrap items-center">
+            {% for facility in facilities %} 
+                {% include 'components/facility_card.html' with facility=facility %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

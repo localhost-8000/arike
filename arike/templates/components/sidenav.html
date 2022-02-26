@@ -1,0 +1,28 @@
+
+<div class="w-[320px] h-screen px-6 py-8 float-left fixed bg-white">
+    <h3 class="text-2xl text-primary_color font-bold">Arike</h3>
+    <div class="flex flex-col justify-between h-full">
+        <ul class="mt-4 ">
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if request.path is "/" %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium3 {% endif %}"><a href="" class="text-[16px]">Home</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/facilities/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">Facility</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/patients/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">Patients</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/schedules/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">Schedules</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/users/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">User</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/profile/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">Profile</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/another/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px]">Another option</a></li>
+        </ul>
+    
+        <div class="mt-2 mb-8">
+            <p class="w-3/4 h-[2px] bg-primary_bg mb-4"></p>
+            <div class="flex flex-row items-center justify-start">
+                <img class="w-12 h-12 rounded-full ml-1" src="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MXwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTY0NTEyMTE1NQ&ixlib=rb-1.2.1&q=80&w=1080" alt="Profile Picture">
+                <div class="flex flex-col justify-between items-center ml-4">
+                    <span>Rahul Tiwari</span>
+                    <a href="" class="text-link_color">Log out</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
