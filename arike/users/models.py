@@ -23,4 +23,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["email", "first_name"]
 
     def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})   
+        return reverse("users:detail", kwargs={"username": self.username}) 
+
+    def pretty_role(self):
+        role = self.role.split('_')  
+        role[0] = role[0].title()
+        role[1] = role[1].title()
+        return ' '.join(role)

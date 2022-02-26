@@ -1,4 +1,18 @@
-<form action="">
-    {{form.as_p()}}
+{% extends 'base.html' %} 
+{% block title %} Update User {% endblock %}
 
-</form>
+{% block content %}
+    {% include 'components/sidenav.html' %} 
+    <div class="ml-[320px] bg-primary_bg min-h-screen">
+        <div class="flex flex-col items-start justify-start py-16 px-64">
+            <h2 class="text-4xl font-extrabold text-primary_color mt-4 mb-6">Update Facility</h2>
+            <form action="" method="post" class="flex flex-row flex-wrap">
+                {% csrf_token %}
+                
+                {% include 'facilities/facility_form.html' with form=form %}
+
+                {% include 'components/button.html' with btn_type="submit" btn_text="Update" %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
