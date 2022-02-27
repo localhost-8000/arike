@@ -176,3 +176,9 @@ class GenericUserDeleteView(DeleteView):
     model = User
     template_name = "users/delete_user.html"
     success_url = "/users/"
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
