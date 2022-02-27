@@ -1,42 +1,48 @@
-from allauth.account.forms import SignupForm
-from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from django.contrib.auth import forms as admin_forms
+
 from django.contrib.auth import get_user_model
+from django.forms import ModelChoiceField, ModelForm
 from django.utils.translation import gettext_lazy as _
+
+from arike.home.models import District
 
 User = get_user_model()
 
 
-class UserAdminChangeForm(admin_forms.UserChangeForm):
-    class Meta(admin_forms.UserChangeForm.Meta):
+class UserCreateForm(ModelForm):
+
+    class Meta:
         model = User
+        fields = ["first_name", "last_name", "email", "district"]
+    
+    def clean_first_name(self):
+        data = self.cleaned_data["first_name"]
+        if len(data) < 2:
+            self.add_error("first_name", "First name must be at least 2 characters long")
+        return data
+    
+    def clean_email(self):
+        data = self.cleaned_data["email"]
+        if not data:
+            self.add_error("email", "Email is required")
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["district"] = ModelChoiceField(queryset=District.objects.all(), empty_label=None)
 
+class UserFacilityAssignForm(ModelForm):
 
-class UserAdminCreationForm(admin_forms.UserCreationForm):
-    """
-    Form for User Creation in the Admin Area.
-    To change user signup, see UserSignupForm and UserSocialSignupForm.
-    """
+    class Meta:
+        model = User 
+        fields = ["facility", "role"]
 
-    class Meta(admin_forms.UserCreationForm.Meta):
-        model = User
+    def clean_facility(self):
+        data = self.cleaned_data["facility"]
+        if not data:
+            self.add_error("facility", "Facility is required")
+        return data
 
-        error_messages = {
-            "username": {"unique": _("This username has already been taken.")}
-        }
-
-
-class UserSignupForm(SignupForm):
-    """
-    Form that will be rendered on a user sign up section/screen.
-    Default fields will be added automatically.
-    Check UserSocialSignupForm for accounts created from social.
-    """
-
-
-class UserSocialSignupForm(SocialSignupForm):
-    """
-    Renders the form when user has signed up using social accounts.
-    Default fields will be added automatically.
-    See UserSignupForm otherwise.
-    """
+    def clean_role(self):
+        data = self.cleaned_data["role"]
+        if not data or data == "none":
+            self.add_error("role", "Role is required")
+        return data
