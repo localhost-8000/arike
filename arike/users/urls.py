@@ -6,6 +6,7 @@ from arike.users.views import (
     GenericUserCreateView,
     GenericUserDeleteView,
     GenericUserDetailView,
+    GenericUserUpdateAssignView,
     GenericUserUpdateView,
     GenericUsersView,
     user_detail_view,
@@ -23,5 +24,6 @@ urlpatterns = [
     path("<pk>", GenericUserDetailView.as_view(), name="detail_user"),
     path("update/<pk>", GenericUserUpdateView.as_view(), name="update_user"),
     path("delete/<pk>", GenericUserDeleteView.as_view(), name="delete_user"),
-    path("create/assign", GenericUserAssignView.as_view(), name="assign_user"),
+    path("create/assign", GenericUserAssignView.as_view(), name="assign_facility"),
+    path("update/<int:user_id>/assign", GenericUserUpdateAssignView.as_view(), name="update_assigned_facility"),
 ]

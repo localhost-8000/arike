@@ -168,6 +168,30 @@ class GenericUserUpdateView(UpdateView):
     template_name = "users/update_user.html"
     success_url = "/users/"
 
+class GenericUserUpdateAssignView(UpdateView):
+    model = User
+    form_class = UserFacilityAssignForm
+    template_name = "users/update_assigned_facility.html"
+    success_url = "/users/"
+
+    def get_object(self):
+        return User.objects.get(pk=self.kwargs["user_id"])
+    
+    def get(self, request, *args, **kwargs): 
+        query_param = request.GET.get("query_param")
+        if query_param:
+            self.query_results = Facility.objects.filter(Q(name__icontains=query_param) | Q(address__icontains=query_param))
+            
+        return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.GET.get("query_param"):
+            context["query_results"] = self.query_results
+
+        return context
+
 class GenericUserDetailView(DetailView):
     model = User
     template_name = "users/detail_user.html"
