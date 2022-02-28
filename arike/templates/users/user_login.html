@@ -10,7 +10,7 @@
         </div>
         <div class="w-1/2 flex flex-col justify-center items-center">
             <h3 class="text-4xl font-medium text-primary_color">Authorized Login</h3>
-            <form action="" method="post" class="flex flex-col mt-6">
+            <form action="" method="post" class="flex flex-col items-center mt-6">
                 {% csrf_token %}
                 {% include 'components/errors.html' with errors=form.non_field_errors %}
                 

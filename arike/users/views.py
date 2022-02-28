@@ -21,7 +21,7 @@ from arike.users.forms import UserCreateForm, UserFacilityAssignForm
 User = get_user_model()
 
 # Users CRUD Operatins view...
-class GenericUsersView(ListView):
+class GenericUsersView(LoginRequiredMixin, ListView):
     template_name = "users/users.html"
     context_object_name = "users"
 
@@ -32,7 +32,7 @@ class GenericUsersView(ListView):
         return super().get_context_data(**kwargs)
 
 
-class GenericUserCreateView(CreateView):
+class GenericUserCreateView(LoginRequiredMixin, CreateView):
     form_class = UserCreateForm
     template_name = "users/create_user.html"
     success_url = "/users/create/assign"
