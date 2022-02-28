@@ -40,7 +40,7 @@ class GenericUserCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.set_password(form.cleaned_data["email"])
-        self.object.username = f"@{form.cleaned_data['first_name']}{form.cleaned_data['last_name']}"
+        self.object.username = form.cleaned_data["email"]
         self.object.is_active = False
         self.object.save()
 
@@ -54,6 +54,14 @@ class GenericUserUpdateView(UpdateView):
     form_class = UserCreateForm
     template_name = "users/update_user.html"
     success_url = "/users/"
+
+    def form_valid(self, form):
+        self.object = form.save()
+        if "email" in form.changed_data:
+            self.object.username = form.cleaned_data["email"]
+            self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
 
 class GenericUserDetailView(DetailView):
     model = User
@@ -98,7 +106,13 @@ class GenericUserAssignView(CreateView):
 
         # update user data and make the user active
         user = User.objects.filter(pk=user_id)
-        user.update(facility=facility, role=role, is_active=True)
+        user.update(
+            facility=facility, 
+            role=role, 
+            is_active=True, 
+            is_staff = True if form.cleaned_data["role"] == "district_admin" else False,
+            is_superuser = True if form.cleaned_data["role"] == "district_admin" else False
+        )
 
         # change the session variable to None
         self.request.session["is_second_step"] = False
@@ -129,3 +143,11 @@ class GenericUserUpdateAssignView(UpdateView):
             context["query_results"] = self.query_results
 
         return context
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.is_staff = True if form.cleaned_data["role"] == "district_admin" else False
+        self.object.is_superuser = True if form.cleaned_data["role"] == "district_admin" else False
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())

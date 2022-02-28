@@ -11,11 +11,13 @@
         <div class="w-1/2 flex flex-col justify-center items-center">
             <h3 class="text-4xl font-medium text-primary_color">Authorized Login</h3>
             <form action="" method="post" class="flex flex-col mt-6">
-                <input type="email" name="" id="" placeholder="Email" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
-                <input type="password" name="" id="" placeholder="Password" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
+                {% csrf_token %}
+                {% include 'components/errors.html' with errors=form.non_field_errors %}
+                
+                <input type="text" name="username" id="id_username" required placeholder="Email" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
+                <input type="password" name="password" id="id_password" required placeholder="Password" class="h-14 w-[380px] rounded-2xl border-0 bg-input_bg mt-4 focus:ring-0">
                 <button type="submit" class="h-14 w-[380px] rounded-2xl border-0 bg-primary_color mt-8 text-white text-lg tracking-wider">Login</button>
             </form>
-            <a href="/register" class="flex flex-row items-center justify-center h-14 w-[380px] rounded-2xl border-0 bg-primary_color mt-8 text-white text-lg tracking-wider">Register</button>
         </div>
     </div>
 {% endblock %}

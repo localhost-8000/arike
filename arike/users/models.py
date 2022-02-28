@@ -26,6 +26,8 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username}) 
 
     def pretty_role(self):
+        if self.role == 'none':
+            return 'None'
         role = self.role.split('_')  
         role[0] = role[0].title()
         role[1] = role[1].title()

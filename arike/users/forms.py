@@ -1,5 +1,5 @@
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, forms
 from django.forms import ModelChoiceField, ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -24,6 +24,7 @@ class UserCreateForm(ModelForm):
         data = self.cleaned_data["email"]
         if not data:
             self.add_error("email", "Email is required")
+        return data
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
