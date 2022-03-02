@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Update Patient {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen py-8 px-[10%]">
+        <h1 class="text-4xl text-primary_color font-extrabold">Edit Patient</h1>
+        <form action="" method="post" class="w-full flex flex-row flex-wrap mt-14">
+            {% csrf_token %}
+            
+            {% include 'patients/update_patient_form.html' %}
+
+            {% include 'components/button.html' with btn_type="submit" btn_text="Update" %}
+        </form>
+    </div>
+{% endblock %}

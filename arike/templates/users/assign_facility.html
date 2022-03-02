@@ -68,8 +68,8 @@
                     {% include 'components/errors.html' with errors=form.facility.errors %}
                 </div>
             </div>
-
-            <form action="/users/create/assign" method="post" class="flex flex-col">
+        
+            <form action="/users/create/{{ user_id }}/assign" method="post" class="flex flex-col">
                 {% csrf_token %}
                 
                 {{ form.facility.as_hidden}}

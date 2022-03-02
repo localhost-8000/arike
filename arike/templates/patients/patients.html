@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Patients {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg h-screen px-12">
+        {% include 'components/list_header.html' with header='Patients' href_url='/patients/create' %}
+        <div class="flex flex-row flex-wrap items-center">
+            {% for patient in patients %}
+                {% include 'patients/patient_card.html' with patient=patient %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

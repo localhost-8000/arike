@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Register Patient {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen py-8 px-[10%]">
+        <h1 class="text-4xl text-primary_color font-extrabold">Patient Registration</h1>
+        <form action="" method="post" class="w-full flex flex-row flex-wrap mt-14">
+            {% csrf_token %}
+            
+            {% include 'patients/patient_form.html' with form=form %}
+
+            {% include 'components/button.html' with btn_type="submit" btn_text="Register" %}
+        </form>
+    </div>
+{% endblock %}

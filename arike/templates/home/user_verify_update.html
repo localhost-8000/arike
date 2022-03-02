@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} Arike | Home {% endblock %}
+
+{% block content %}
+{{ form }}
+    <div class="bg-primary_bg min-h-screen">
+        <div class="flex flex-col items-center pt-16 pb-12">
+            <img class="w-24 h-24 rounded-full" src="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MXwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTY0NTEyMTE1NQ&ixlib=rb-1.2.1&q=80&w=1080" alt="Profile Picture">
+            <h3 class="text-2xl font-semibold text-primary_color my-3 tracking-wide">{{ object.get_full_name }}</h3>
+            <span class="text-sm text-white px-8 py-1 rounded-[80px] bg-primary_color tracking-widest">{{ object.pretty_role }}</span>
+        </div>
+        <p class="h-[2px] w-3/4 bg-[#E0E0E0] mx-auto my-2"></p>
+
+        <div class="w-3/4 mx-auto py-5">
+            <h2 class="text-primary_color text-2xl font-bold">Profile</h2>
+            
+            <div class="w-full flex flex-row flex-wrap justify-between">
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <label class="block text-sm text-[#6E7191] pt-[2px]">First Name</label>
+                    <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.first_name }}</span>
+                </div> 
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <label class="block text-sm text-[#6E7191] pt-[2px]">Last Name</label>
+                    <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.last_name }}</span>
+                </div> 
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <label class="block text-sm text-[#6E7191] pt-[2px]">Email</label>
+                    <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.email }}</span>
+                </div> 
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <label class="block text-sm text-[#6E7191] pt-[2px]">District</label>
+                    <span class="block w-[95%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0">{{ object.district }}</span>
+                </div> 
+            </div>
+
+            <h2 class="text-primary_color text-2xl font-bold">Password</h2>
+
+            {% include 'components/errors.html' with errors=form.non_field_errors %}
+            <form action="" method="post" class="w-full flex flex-row flex-wrap justify-between">
+                {% csrf_token %}
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <input 
+                        type="password" 
+                        name="new_password1"
+                        id="id_new_password1"
+                        placeholder="New password"
+                        autofocus
+                        class="block w-[95%] h-full leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0"
+                    >
+                    {% include 'components/errors.html' with errors=form.new_password1.errors %}
+                </div>
+                <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <input 
+                        type="password" 
+                        name="new_password2"
+                        id="id_new_password2"
+                        placeholder="Confirm password"
+                        class="block w-[95%] h-full leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0"
+                    >
+                    {% include 'components/errors.html' with errors=form.new_password2.errors %}
+                </div>
+
+                {% include 'components/button.html' with btn_type='submit' btn_text='Update' %}
+            </form>
+
+        </div>
+
+
+    </div>
+{% endblock %}

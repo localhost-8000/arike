@@ -54,6 +54,7 @@ module.exports = {
             primary_color: '#333333',
             link_color: '#0063BF',
             grey_light: '#6E7191',
+            grey_dark: '#4F4F4F',
             white: '#FFFFFF',
             black: '#000000',
             warning: '#C22E32'

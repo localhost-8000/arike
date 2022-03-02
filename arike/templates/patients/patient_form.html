@@ -1,0 +1,67 @@
+{% for field in form %}
+    {% if field.html_name == 'address' %}
+        <textarea 
+            name="{{ field.html_name }}" 
+            id="{{ field.auto_id }}" 
+            required
+            placeholder="{{ field.label }}"
+            class="w-[calc(80%+2.5rem)] h-32 my-4 py-3 px-5 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+        >{{ field.value|default:'' }}</textarea>
+
+    {% elif field.html_name == 'ward' or field.html_name == 'facility' %} 
+        <select title="Select {{ field.html_name }}" name="{{ field.html_name }}" id="{{field.auto_id}}" required class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+            <option value="" disabled selected>Select {{ field.html_name }}</option>
+            {% for x, y in field.field.choices %} 
+                <option value="{{ x }}" {% if field.value == x %} selected {% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+    
+    {% elif field.html_name == 'gender' %} 
+        <h3 class="w-full text-2xl font-medium text-primary_color my-2">Gender</h3>
+        <ul class="flex flex-row items-center" id="kind_id">
+            <li>
+                <label for="id_gender_0">
+                    <input type="radio" name="gender" value="Male" required id="id_gender_0" checked>
+                    Male
+                </label>
+            </li>
+            <li class="ml-24">
+                <label for="id_gender_1">
+                    <input type="radio" name="gender" value="Female" required id="id_gender_1">
+                    Female
+                </label>
+            </li>
+            <li class="ml-24">
+                <label for="id_gender_2">
+                    <input type="radio" name="gender" value="Other" required id="id_gender_2">
+                    Other
+                </label>
+            </li>
+        </ul>
+    {% elif field.html_name == 'birth_date' %} 
+        <input 
+            type="text"
+            id="{{ field.auto_id }}"
+            name="{{ field.html_name }}" 
+            {% if field.value %} value="{{field.value}}" {% endif %} 
+            {% if field.field.required %} required {% endif %}
+            placeholder="Birth Date"
+            onfocus="(this.type='date')" 
+            class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 placeholder:text-[16px] placeholder:text-grey_light focus:ring-0"
+        >
+    {% else %}
+        <input 
+            type="{{ field.widget_type }}"
+            id="{{ field.auto_id }}"
+            name="{{ field.html_name }}" 
+            {% if field.value %} value="{{field.value}}" {% endif %} 
+            {% if field.field.required %} required {% endif %}
+            placeholder="{{ field.label }}" 
+            class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 placeholder:text-[16px] placeholder:text-grey_light focus:ring-0"
+        >
+    {% endif %}
+
+    {% include 'components/errors.html' with errors=field.errors %}
+
+{% endfor %}
+

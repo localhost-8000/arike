@@ -17,10 +17,11 @@ urlpatterns = [
     # User management
     path("users/", include("arike.users.urls", namespace="users")),
     path("facilities/", include("arike.facilities.urls", namespace="facilities")),
-    path("accounts/", include("allauth.urls")),
+    # path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     path("__reload__/", include("django_browser_reload.urls")),
     path('', include('home.urls')),
+    path('patients/', include('patients.urls', namespace="patients")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
