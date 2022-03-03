@@ -1,7 +1,7 @@
 <div class="pt-6">
     <div class="flex flex-row justify-between my-6">
         <h2 class="text-4xl font-extrabold text-primary_color">{{ header }}</h2>
-        <a href="{% url url_namespace uid=uid %}" class="w-24 h-11 text-sm bg-primary_color text-white font-bold rounded-lg flex flex-row items-center justify-center">New</a>
+        <a href="{% if uid == '' %}{% url url_namespace %}{% else %}{% url url_namespace uid=uid %}{% endif %}" class="w-24 h-11 text-sm bg-primary_color text-white font-bold rounded-lg flex flex-row items-center justify-center">New</a>
     </div>
     <!-- <div class="flex flex-row justify-between my-8">
         <form action="" method="get" class="relative w-[320px] rounded-xl">
