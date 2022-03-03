@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from arike.patients.models import Patient
+from arike.patients.models import Patient, PatientFamily
 
 class PatientCreationForm(ModelForm):
 
@@ -11,3 +11,10 @@ class PatientCreationForm(ModelForm):
         super(PatientCreationForm, self).__init__(*args, **kwargs)
         self.fields['last_name'].required = False 
         self.fields['emergency_phone_number'].required = False
+
+class PatientFamilyCreationForm(ModelForm):
+
+    class Meta:
+        model = PatientFamily
+        fields = "__all__"
+        exclude = ['occupation', 'remarks', 'is_primary', 'patient', 'deleted']

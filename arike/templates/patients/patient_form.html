@@ -7,14 +7,6 @@
             placeholder="{{ field.label }}"
             class="w-[calc(80%+2.5rem)] h-32 my-4 py-3 px-5 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
         >{{ field.value|default:'' }}</textarea>
-
-    {% elif field.html_name == 'ward' or field.html_name == 'facility' %} 
-        <select title="Select {{ field.html_name }}" name="{{ field.html_name }}" id="{{field.auto_id}}" required class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
-            <option value="" disabled selected>Select {{ field.html_name }}</option>
-            {% for x, y in field.field.choices %} 
-                <option value="{{ x }}" {% if field.value == x %} selected {% endif %}>{{ y }}</option>
-            {% endfor %}
-        </select>
     
     {% elif field.html_name == 'gender' %} 
         <h3 class="w-full text-2xl font-medium text-primary_color my-2">Gender</h3>
@@ -38,6 +30,15 @@
                 </label>
             </li>
         </ul>
+        
+    {% elif field.widget_type == 'select' %} 
+        <select title="Select {{ field.html_name }}" name="{{ field.html_name }}" id="{{field.auto_id}}" required class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+            <option value="" disabled selected>Select {{ field.html_name }}</option>
+            {% for x, y in field.field.choices %} 
+                <option value="{{ x }}" {% if field.value == x %} selected {% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+
     {% elif field.html_name == 'birth_date' %} 
         <input 
             type="text"

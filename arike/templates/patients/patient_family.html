@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} Patient Family {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-16">
+        {% include 'components/list_header.html' with header='Family Details' url_namespace='patients:patient_family_create' uid=view.kwargs.uid %}
+        
+        <h2 class="text-2xl font-bold text-primary_color mt-12">{{ patient }}</h2>
+        <p class="text-lg text-grey_dark">{{ patient.address }}</p>
+
+        <div class="flex flex-row flex-wrap items-center mt-4 justify-between">
+            {% for member in patient_families %}
+                <div class="flex flex-col min-w-[440px] w-[45%] py-5 px-4 bg-white rounded-2xl my-6">
+                    <div class="flex flex-row justify-between">
+                        <h3 class="text-xl font-bold text-primary_color">{{ member }}</h3>
+                        <span class="text-[15px] text-grey_dark font-semibold pr-5">{{ member.get_relation_display }}</span>
+                    </div>
+                    <p class="mt-2 text-[15px] text-grey_dark">{{ member.address }}</p>
+                    <div class="flex flex-row mt-3">
+                        <div class="w-1/2">
+                            <p class="text-[15px] text-link_color font-semibold">{{ member.phone_number }}</p>
+                            <p class="text-[15px] text-grey_dark font-bold mt-2">Birth Date</p>
+                            <p class="text-[15px] text-primary_color">{{member.birth_date }} ({{member.age}} years)</p>
+                            <p class="text-[15px] text-grey_dark font-bold mt-2">Education</p>
+                            <p class="text-[15px] text-primary_color">{{ member.education }}</p>
+                        </div>
+                        <div class="w-1/2">
+                            <p class="text-[15px] text-link_color font-semibold">{{ member.email }}</p>
+                            <p class="text-[15px] text-grey_dark font-bold mt-2">Occupation</p>
+                            <p class="text-[15px] text-primary_color">{{ member.occupation|default:'Not provided' }}</p>
+                            <p class="text-[15px] text-grey_dark font-bold mt-2">Remarks</p>
+                            <p class="text-[15px] text-primary_color">{{ member.remarks|default:'No remarks' }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row mt-4">
+                        <a href="/patients/{{ view.kwargs.uid }}/family/delete/{{ member.id }}" class="bg-white text-primary_color border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-2">Delete</a>
+                        <a href="/patients/{{ view.kwargs.uid }}/family/update/{{ member.id }}" class="ml-3 bg-primary_color text-white border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-2">Edit</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
