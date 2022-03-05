@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Update Treatment {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen py-8 px-[10%]">
+        <h1 class="text-4xl text-primary_color font-extrabold">Update Treatment</h1>
+        <form action="" method="post" class="w-full flex flex-row flex-wrap mt-14" data-care_sub_types-url="{% url 'treatments:load_care_sub_types' %}">
+            {% csrf_token %}
+ 
+            <select title="Select Care Type" name="{{ form.care_type.html_name }}" id="{{form.care_type.auto_id}}" class="h-14 max-w-[650px] w-full rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+                <option value="" disabled selected>Select Care Type</option>
+                {% for x, y in form.care_type.field.choices %} 
+                    <option value="{{ x }}" {% if form.care_type.value == x %} selected {% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+            {% include 'components/errors.html' with errors=form.care_type.errors %} 
+
+            <select title="Select Care Sub-Type" name="{{ form.care_sub_type.html_name }}" id="{{form.care_sub_type.auto_id}}" class="h-14 max-w-[650px] w-full rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+                {% for x, y in form.care_sub_type.field.choices %} 
+                    <option value="{{ x }}" {% if form.care_sub_type.value == x %} selected {% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+            {% include 'components/errors.html' with errors=form.care_sub_type.errors %} 
+        
+            <textarea 
+                name="{{ form.description.html_name }}" 
+                id="{{ form.description.auto_id }}" 
+                placeholder="{{ form.description.label }}"
+                class="max-w-[650px] w-full h-32 my-4 py-3 px-5 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+            >{{ form.description.value|default:'' }}</textarea>
+        
+            {% include 'components/errors.html' with errors=form.description.errors %} 
+
+            {% include 'components/button.html' with btn_type="submit" btn_text="Update" %}
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_care_type").change(event => {
+        const url = $("form").attr("data-care_sub_types-url");
+        const care_type = event.target.value;
+
+        $.ajax({
+            url: url,
+            data: {
+                'care_type': care_type
+            },
+            success: data => {
+                $("#id_care_sub_type").html(data)
+            }
+        });
+    });
+    $.proxy()
+</script>
+{% endblock %}

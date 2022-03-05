@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} Disease History {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-16">
+        {% include 'components/list_header.html' with header='Disease History' url_namespace='treatments:disease_history_create' uid=view.kwargs.uid %}
+        
+        <h2 class="text-2xl font-bold text-primary_color mt-12">{{ patient }}</h2>
+        <p class="text-lg text-grey_dark">{{ patient.address }}</p>
+
+        <div class="flex flex-row flex-wrap items-center mt-4 justify-between">
+            {% for disease in disease_histories %}
+            <div class="flex flex-col min-w-[440px] w-[45%] py-5 px-6 bg-white rounded-2xl my-6">
+                <h3 class="text-xl font-bold text-primary_color">{{ disease.disease }}</h3>
+                <p class="text-[15px] text-grey_dark font-bold pr-5">{{ disease.pretty_updated }}</p>
+
+                <div class="flex flex-row mt-3">
+                    <div class="w-1/2">
+                        <p class="text-[15px] text-grey_dark font-bold mt-2">Investigation By</p>
+                        <p class="text-[15px] text-primary_color">{{ disease.investigated_by.get_full_name }}</p>
+                    </div>
+                    <div class="w-1/2">
+                        <p class="text-[15px] text-grey_dark font-bold mt-2">Treatments</p>
+                        <p class="text-[15px] text-primary_color">{{ disease.treatment.care_type|default:'Not given yet'}}</p>
+                    </div>
+                </div>
+
+                <p class="text-[15px] text-grey_dark font-bold mt-2">Remarks</p>
+                <p class="text-[15px] text-primary_color">{{ disease.remarks }}</p>
+
+                <div class="flex flex-row mt-4">
+                    <a href="/patients/{{ view.kwargs.uid }}/disease/history/delete/{{ disease.id }}" class="bg-white text-primary_color border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-2">Delete</a>
+                    <a href="/patients/{{ view.kwargs.uid }}/disease/history/update/{{ disease.id }}" class="ml-3 bg-primary_color text-white border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-2">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

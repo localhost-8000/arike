@@ -1,5 +1,6 @@
 
 from django import forms
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import ModelForm
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -20,14 +21,20 @@ class FacilityCreateForm(ModelForm):
         super(FacilityCreateForm, self).__init__(*args, **kwargs)
         self.fields['ward'] = forms.ModelChoiceField(queryset=Ward.objects.all())
 
-class GenericFacilitiesView(ListView):
+class AuthorisedFacilityManager(LoginRequiredMixin, PermissionRequiredMixin):
+
+    def get_queryset(self):
+        return Facility.objects.filter(deleted=False)
+    
+class GenericFacilitiesView(LoginRequiredMixin, ListView):
     template_name = "facilities/facilities.html"
     context_object_name = "facilities"
 
     def get_queryset(self):
         return Facility.objects.filter(deleted=False)
 
-class GenericFacilityCreateView(CreateView):
+class GenericFacilityCreateView(AuthorisedFacilityManager, CreateView):
+    permission_required = "facilities.add_facility"
     form_class = FacilityCreateForm
     template_name = "facilities/create_facility.html"
     success_url = "/facilities/"
@@ -38,7 +45,8 @@ class GenericFacilityCreateView(CreateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-class GenericFacilityUpdateView(UpdateView):
+class GenericFacilityUpdateView(AuthorisedFacilityManager, UpdateView):
+    permission_required = "facilities.change_facility"
     model = Facility
     form_class = FacilityCreateForm
     template_name = "facilities/update_facility.html"
@@ -50,11 +58,12 @@ class GenericFacilityUpdateView(UpdateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-class GenericFacilityDetailView(DetailView):
+class GenericFacilityDetailView(LoginRequiredMixin, DetailView):
     model = Facility
     template_name = "facilities/detail_facility.html"
 
-class GenericFacilityDeleteView(DeleteView):
+class GenericFacilityDeleteView(AuthorisedFacilityManager, DeleteView):
+    permission_required = "facilities.delete_facility"
     model = Facility
     template_name = "facilities/delete_facility.html"
     success_url = "/facilities/"

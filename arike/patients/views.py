@@ -1,4 +1,6 @@
+from datetime import datetime
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -7,7 +9,13 @@ from arike.patients.forms import PatientCreationForm, PatientFamilyCreationForm
 from arike.patients.models import Patient, PatientFamily
 
 
-class PatientsListView(ListView):
+class AuthorisedPatientManager(LoginRequiredMixin, PermissionRequiredMixin):
+    
+    def get_queryset(self):
+        return Patient.objects.filter(expired_time__lt=datetime.now())
+    
+
+class PatientsListView(LoginRequiredMixin, ListView):
     model = Patient
     context_object_name = 'patients'
     template_name = 'patients/patients.html'
@@ -15,24 +23,25 @@ class PatientsListView(ListView):
     def get_queryset(self):
         return Patient.objects.all()
 
-
-class PatientCreateView(CreateView):
+class PatientCreateView(AuthorisedPatientManager, CreateView):
+    permission_required = "patients.add_patient"
     model = Patient
     form_class = PatientCreationForm
     template_name = "patients/create_patient.html"
     success_url = "/patients/"
 
-class PatientUpdateView(UpdateView):
+class PatientUpdateView(AuthorisedPatientManager, UpdateView):
+    permission_required = "patients.change_patient"
     model = Patient
     form_class = PatientCreationForm
     template_name = "patients/update_patient.html"
     success_url = "/patients/"
 
-class PatientDetailView(DetailView):
+class PatientDetailView(LoginRequiredMixin, DetailView):
     model = Patient
     template_name = "patients/detail_patient.html"
 
-class PatientFamilyListView(ListView):
+class PatientFamilyListView(LoginRequiredMixin, ListView):
     model = PatientFamily
     context_object_name = 'patient_families'
     template_name = "patients/patient_family.html"
@@ -47,7 +56,8 @@ class PatientFamilyListView(ListView):
         return context
 
 
-class PatientFamilyCreateView(CreateView):
+class PatientFamilyCreateView(AuthorisedPatientManager, CreateView):
+    permission_required = "patients.add_patientfamily"
     model = PatientFamily
     form_class = PatientFamilyCreationForm
     template_name = "patients/create_patient_family.html"
@@ -60,7 +70,8 @@ class PatientFamilyCreateView(CreateView):
 
         return HttpResponseRedirect(f"/patients/{patient_id}/family")
 
-class PatientFamilyUpdateView(UpdateView):
+class PatientFamilyUpdateView(AuthorisedPatientManager, UpdateView):
+    permission_required = "patients.change_patientfamily"
     model = PatientFamily
     form_class = PatientFamilyCreationForm
     template_name = "patients/update_patient_family.html"
@@ -71,7 +82,8 @@ class PatientFamilyUpdateView(UpdateView):
 
         return HttpResponseRedirect(f"/patients/{patient_id}/family")
 
-class PatientFamilyDeleteView(DeleteView):
+class PatientFamilyDeleteView(AuthorisedPatientManager, DeleteView):
+    permission_required = "patients.delete_patientfamily"
     model = PatientFamily
     template_name = "patients/delete_patient_family.html"
     

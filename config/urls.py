@@ -22,7 +22,7 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('', include('home.urls')),
     path('patients/', include('patients.urls', namespace="patients")),
-    path('treatments/', include('treatments.urls', namespace='treatments')),
+    path('patients/', include('treatments.urls', namespace='treatments')),
     path('visits/', include('visits.urls', namespace='visits')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

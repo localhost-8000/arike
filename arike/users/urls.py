@@ -18,6 +18,6 @@ urlpatterns = [
     path("<pk>", GenericUserDetailView.as_view(), name="detail_user"),
     path("update/<pk>", GenericUserUpdateView.as_view(), name="update_user"),
     path("delete/<pk>", GenericUserDeleteView.as_view(), name="delete_user"),
-    path("create/<int:user_id>/assign", GenericUserAssignView.as_view(), name="assign_facility"),
-    path("update/<int:user_id>/assign", GenericUserUpdateAssignView.as_view(), name="update_assigned_facility"),
+    path("create/<int:uid>/assign", GenericUserAssignView.as_view(), name="assign_facility"),
+    path("update/<int:uid>/assign", GenericUserUpdateAssignView.as_view(), name="update_assigned_facility"),
 ]

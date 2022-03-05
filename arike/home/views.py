@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
-from django.http import HttpResponseNotAllowed, HttpResponsePermanentRedirect
+from django.http import HttpResponseForbidden, HttpResponseNotAllowed, HttpResponsePermanentRedirect
 
 from arike.home.forms import SetPasswordForm
 
@@ -16,6 +16,13 @@ class UserProfileWithPasswordChangeView(PasswordChangeView):
     form_class = auth_forms.SetPasswordForm
     template_name = 'home/user_profile.html'
     success_url = '/users'
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(pk=kwargs['pk'])
+        if self.request.user.id != user.id or user.is_active == False:
+            return HttpResponseForbidden("You are not allowed to access this page")
+
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

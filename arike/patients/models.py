@@ -1,4 +1,7 @@
-from datetime import datetime, date
+from datetime import date, datetime
+
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from arike.facilities.models import Facility, Ward
@@ -57,6 +60,7 @@ class Patient(models.Model):
         today = date.today()
         age = today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
         return age
+
 
 class PatientFamily(models.Model):
     first_name = models.CharField(max_length=150)

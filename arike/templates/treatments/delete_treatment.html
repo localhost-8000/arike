@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% block title %} Delete Treatment {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %} 
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[20%] py-8">
+        <h1 class="text-primary_color text-3xl font-extrabold">Delete Treatment</h1>
+        <p class="text-xl text-primary_color font-medium mt-12">Treatment <i>{{ object.care_type }}</i> for patient <i>{{ object.patient }}</i> will be deleted</p>
+        <p class="text-xl text-primary_color font-medium mt-1">Are you sure ? Action can not be reversed.</p>
+        <form action="" method="post" class="flex flex-row mt-10">
+            {% csrf_token %}
+            <button type="submit" class="w-[200px] h-14 rounded-[12px] bg-primary_color text-[16px] font-semibold text-white tracking-wider">Delete</button>
+            <a href="/patients/{{view.kwargs.uid}}/disease/treatments" class="ml-9 w-[200px] h-14 rounded-[12px] border-2 border-primary_color text-[16px] font-semibold text-primary_color flex flex-row items-center justify-center">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

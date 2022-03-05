@@ -1,5 +1,5 @@
 from django.contrib import admin
-from arike.facilities.models import Ward, Facility
+from arike.patients.models import Patient, PatientFamily
 
-# admin.site.register(Ward)
-# admin.site.register(Facility)
+admin.site.register(Patient)
+admin.site.register(PatientFamily)
