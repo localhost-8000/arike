@@ -1,0 +1,11 @@
+{
+    "name": "arike",
+    "version": "1.0.0",
+    "description": "Dummy package.json to point the Heroku buildpack at the correct one.",
+    "scripts": {
+      "postinstall": "cd arike/static_src && npm install"
+    },
+    "cacheDirectories": [
+      "arike/static_src/node_modules"
+    ]
+  }
