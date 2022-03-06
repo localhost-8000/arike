@@ -61,22 +61,7 @@ class GenericUserCreateView(AuthorisedUserManager, CreateView):
         self.object.is_active = False
         self.object.save()
 
-        self.send_verify_and_set_password_mail(self.object, self.request)
-
         return HttpResponseRedirect(f"/users/create/{self.object.pk}/assign")
-    
-    
-
-    def send_verify_and_set_password_mail(self, user, request):
-        current_site = get_current_site(request)
-        mail_subject = "Welcome to Arike"
-        message = render_to_string('pass_reset_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
-        })
-        user.email_user(mail_subject, message, 'rahultwr0005@gmail.com')
 
 
 class GenericUserUpdateView(AuthorisedUserManager, UpdateView):
@@ -154,9 +139,23 @@ class GenericUserAssignView(AuthorisedUserManager, CreateView):
             is_staff = True if form.cleaned_data["role"] == "district_admin" else False,
             is_superuser = True if form.cleaned_data["role"] == "district_admin" else False
         )
+
         assign_group_to_user(self.kwargs['uid'], role)
+        self.send_verify_and_set_password_mail(self.kwargs['uid'])
 
         return HttpResponsePermanentRedirect("/users/")
+    
+    def send_verify_and_set_password_mail(self, user_id):
+        user = User.objects.get(pk=user_id)
+        mail_subject = "Welcome to Arike"
+        message = render_to_string('pass_reset_email.html', {
+            'user': user,
+            'domain': self.request.get_host(),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        user.email_user(mail_subject, message, 'rahultwr0005@gmail.com')
+
     
 class GenericUserUpdateAssignView(AuthorisedUserManager, UpdateView):
     permission_required = "users.change_user"

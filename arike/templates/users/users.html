@@ -7,7 +7,7 @@
         
         {% include 'components/list_header.html' with header='Users' url_namespace='users:create_user' uid='' permission=perms.users.add_user %}
         
-        <div class="flex flex-row flex-wrap items-center">
+        <div class="flex flex-row flex-wrap items-center justify-between">
             {% for user in users %} 
                 {% include 'components/user_card.html' with user=user %}
             {% endfor %}
