@@ -148,7 +148,7 @@ class GenericUserAssignView(AuthorisedUserManager, CreateView):
             is_staff = True if form.cleaned_data["role"] == "district_admin" else False,
             is_superuser = True if form.cleaned_data["role"] == "district_admin" else False
         )
-        assign_group_to_user(user.id, role)
+        assign_group_to_user(self.kwargs['uid'], role)
 
         return HttpResponsePermanentRedirect("/users/")
     
