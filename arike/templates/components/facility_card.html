@@ -10,6 +10,6 @@
     <p class="w-full h-[2px] bg-secondary_bg my-2"></p>
     <div class="w-full flex flex-row items-center justify-between my-2 px-6">
         <span class="text-primary_color font-bold text-sm">{{ facility.phone_number }}</span>
-        <a href="/facilities/{{ facility.id }}" class="px-5 border-2 border-primary_color rounded-lg py-1 text-sm text-primary_color font-medium">View</a>
+        <a href="{% url 'facilities:facility_detail' pk=facility.pk %}" class="px-5 border-2 border-primary_color rounded-lg py-1 text-sm text-primary_color font-medium">View</a>
     </div>
 </div>
