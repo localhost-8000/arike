@@ -342,4 +342,3 @@ SPECTACULAR_SETTINGS = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 TAILWIND_APP_NAME = "arike"
-NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
