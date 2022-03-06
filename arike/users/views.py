@@ -68,9 +68,8 @@ class GenericUserCreateView(AuthorisedUserManager, CreateView):
         uid = user.id
         self.request.session[str(uid)] = str(token)
         subject = "Welcome to Arike"
-        print('link to verify: ', self.request.build_absolute_uri(f'/account/verify/{uid}/{token}'))
-        message = f"Hello {user.first_name},\nAn account has been created for you on Arike.\n\nUsername: {user.username}\n\nPlease click the link below to verify your account and set a password for login.\n\n{self.request.build_absolute_uri(f'/account/verify/{uid}/{token}')}\n\nThank you."
-        user.email_user(subject, message, 'rt945471@gmail.com')
+        message = f"Hello {user.first_name},\nAn account has been created for you on Arike.\n\nUsername: {user.username}\n\nPlease click the link below to verify your account and set a password for login.\n\n{self.request.build_absolute_uri(f'/account/verify/{uid}/{token}')}\n\nThank you\nTeam Arike"
+        user.email_user(subject, message, 'rahultwr0005@gmail.com')
 
 
 class GenericUserUpdateView(AuthorisedUserManager, UpdateView):
