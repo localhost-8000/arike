@@ -1,0 +1,11 @@
+{% autoescape off %}  
+Hi {{ user.get_full_name }},
+
+An account has been created for you on arike platform.  
+Please click on the link below to confirm your registration.
+
+http://{{ domain }}{% url 'home:activate_account' uidb64=uid token=token %}  
+
+Thanks,
+Team Arike
+{% endautoescape %}

@@ -4,10 +4,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.http import (
+    HttpResponse,
     HttpResponseForbidden,
     HttpResponseNotAllowed,
     HttpResponsePermanentRedirect,
 )
+from arike.users.token import account_activation_token
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
 
@@ -37,22 +41,27 @@ class UserProfileWithPasswordChangeView(PasswordChangeView):
         context['object'] = User.objects.get(pk=self.kwargs['pk'])
         return context
 
-class UserVerifyAndSetPasswordView(UpdateView):
+class ActivateAccountView(UpdateView):
     form_class = SetPasswordForm
     template_name = 'home/user_verify_update.html'
     success_url = '/login'
 
     def get(self, request, *args, **kwargs):
+        uidb64 = kwargs['uidb64']
         token = kwargs['token']
-        uid = kwargs['uid']
-
-        if (not uid in self.request.session) or (self.request.session[uid] != str(token)):
-            return HttpResponseNotAllowed("You are not allowed to access this page!")
-        print('token is present', self.request.session[uid])
-        return super().get(request, *args, **kwargs)
-
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None 
+        if user is not None and account_activation_token.check_token(user, token):
+            return super().get(request, *args, **kwargs)
+        else:
+            return HttpResponse("Activation link is invalid!")
+    
     def get_object(self):
-        user = User.objects.get(pk=self.kwargs['uid'])
+        uid = force_text(urlsafe_base64_decode(self.kwargs['uidb64']))
+        user = User.objects.get(pk=uid)
         return user 
     
     def get_form_kwargs(self):
@@ -67,6 +76,4 @@ class UserVerifyAndSetPasswordView(UpdateView):
         self.object.is_verified = True
         self.object.save()
 
-        # Delete the uid and token from the session
-        del self.request.session[self.kwargs['uid']]
         return HttpResponsePermanentRedirect(self.get_success_url())

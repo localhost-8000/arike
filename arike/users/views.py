@@ -1,8 +1,8 @@
-from uuid import uuid4
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
+from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Q
 from django.http import (
     HttpResponseBadRequest,
@@ -10,6 +10,9 @@ from django.http import (
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, UpdateView
 from django.views.generic.detail import DetailView
@@ -18,6 +21,7 @@ from django.views.generic.list import ListView
 
 from arike.facilities.models import Facility
 from arike.users.forms import UserCreateForm, UserFacilityAssignForm
+from arike.users.token import account_activation_token
 
 User = get_user_model()
 
@@ -57,19 +61,22 @@ class GenericUserCreateView(AuthorisedUserManager, CreateView):
         self.object.is_active = False
         self.object.save()
 
-        self.send_verify_and_set_password_mail(self.object)
+        self.send_verify_and_set_password_mail(self.object, self.request)
 
         return HttpResponseRedirect(f"/users/create/{self.object.pk}/assign")
     
     
 
-    def send_verify_and_set_password_mail(self, user):
-        token = uuid4()
-        uid = user.id
-        self.request.session[str(uid)] = str(token)
-        subject = "Welcome to Arike"
-        message = f"Hello {user.first_name},\nAn account has been created for you on Arike.\n\nUsername: {user.username}\n\nPlease click the link below to verify your account and set a password for login.\n\n{self.request.build_absolute_uri(f'/account/verify/{uid}/{token}')}\n\nThank you\nTeam Arike"
-        user.email_user(subject, message, 'rahultwr0005@gmail.com')
+    def send_verify_and_set_password_mail(self, user, request):
+        current_site = get_current_site(request)
+        mail_subject = "Welcome to Arike"
+        message = render_to_string('pass_reset_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        user.email_user(mail_subject, message, 'rahultwr0005@gmail.com')
 
 
 class GenericUserUpdateView(AuthorisedUserManager, UpdateView):

@@ -6,7 +6,7 @@ from django.views import defaults as default_views
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
-    path('', include('home.urls')),
+    path('', include('home.urls', namespace='home')),
     path("users/", include("arike.users.urls", namespace="users")),
     path("facilities/", include("arike.facilities.urls", namespace="facilities")),
     path('patients/', include('patients.urls', namespace="patients")),
