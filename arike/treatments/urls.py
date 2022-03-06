@@ -15,7 +15,7 @@ from arike.treatments.views import (
 app_name = "treatments"
 
 urlpatterns = [
-    path("<int:uid>/disease/history", DiseaseHistoryListView.as_view(), name="disease_history_ist"),
+    path("<int:uid>/disease/history", DiseaseHistoryListView.as_view(), name="disease_history_list"),
     path("<int:uid>/disease/history/create", DiseaseHistoryCreateView.as_view(), name="disease_history_create"),
     path("<int:uid>/disease/history/update/<pk>", DiseaseHistoryUpdateView.as_view(), name="disease_history_update"),
     path("<int:uid>/disease/history/delete/<pk>", DiseaseHistoryDeleteView.as_view(), name="disease_history_delete"),

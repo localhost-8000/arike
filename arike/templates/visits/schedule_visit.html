@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Schedule Visit {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[15%] pt-12">
+        <h2 class="text-3xl font-extrabold text-primary_color">Schedule Visit</h2>
+        <div class="max-w-[500px] w-full bg-white rounded-2xl mt-12 py-6 px-5">
+            <h3 class="text-xl font-bold text-primary_color">{{ patient }}</h3>
+            <p class="text-[15px] text-grey_dark">{{ patient.address }}</p>
+            <p class="mt-2 text-[15px] text-grey_dark font-bold">Phone Number</p>
+            <p class="text-[15px] text-link_color font-semibold">{{ patient.phone_number }}</p>
+            <p class="mt-2 text-[15px] text-grey_dark font-bold">Active Treatment</p>
+            <ul>
+                {% for t in treatments %}
+                <li class="list-disc ml-4 text-sm text-grey_dark font-medium">{{ t.care_type }}</li>
+                {% endfor %}
+            </ul>    
+        </div>
+        <form method="post" class="max-w-[500px] w-full mt-2">
+            {% csrf_token %}
+            {% for field in form %} 
+                <div class="h-14 w-full inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
+                    <label for="{{ field.id_for_label }}" class="block text-sm text-[#6E7191]">{{ field.label }}</label>
+                    <input 
+                        type="{{ field.widget_type }}" 
+                        id="{{ field.auto_id }}" 
+                        name="{{ field.html_name }}" 
+                        {% if field.value %} value="{{field.value}}" {% endif %} 
+                        {% if field.field.required %} required {% endif %}
+                        placeholder="{{ field.field.widget.attrs.placeholder }}" 
+                        class="block w-[90%] h-6 leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 focus:ring-0"
+                    >
+                    <ul class="mt-3 -ml-[0.5rem] list-disc">
+                        {% for error in field.errors %} 
+                            <li class="text-xs text-warning mt-1">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+
+            {% include 'components/button.html' with btn_type="submit" btn_text="Schedule Visit" %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,16 +1,24 @@
 
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.shortcuts import render
+from django.http import (
+    HttpResponseForbidden,
+    HttpResponseNotAllowed,
+    HttpResponsePermanentRedirect,
+)
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import UpdateView
-from django.http import HttpResponseForbidden, HttpResponseNotAllowed, HttpResponsePermanentRedirect
 
 from arike.home.forms import SetPasswordForm
 
 User = get_user_model()
 class UserLoginView(LoginView):
     template_name = 'users/user_login.html'
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = "home/dashboard.html"
 
 class UserProfileWithPasswordChangeView(PasswordChangeView):
     form_class = auth_forms.SetPasswordForm
@@ -61,6 +69,3 @@ class UserVerifyAndUpdatePasswordView(UpdateView):
         # Delete the uid and token from the session
         del self.request.session[self.kwargs['uid']]
         return HttpResponsePermanentRedirect(self.get_success_url())
-
-def get_view(request):
-    return render(request, 'pages/home.html')

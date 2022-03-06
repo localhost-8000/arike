@@ -10,10 +10,7 @@ from arike.patients.models import Patient, PatientFamily
 
 
 class AuthorisedPatientManager(LoginRequiredMixin, PermissionRequiredMixin):
-    
-    def get_queryset(self):
-        return Patient.objects.filter(expired_time__lt=datetime.now())
-    
+    pass 
 
 class PatientsListView(LoginRequiredMixin, ListView):
     model = Patient
@@ -21,7 +18,7 @@ class PatientsListView(LoginRequiredMixin, ListView):
     template_name = 'patients/patients.html'
 
     def get_queryset(self):
-        return Patient.objects.all()
+        return Patient.objects.filter(deleted=False)
 
 class PatientCreateView(AuthorisedPatientManager, CreateView):
     permission_required = "patients.add_patient"

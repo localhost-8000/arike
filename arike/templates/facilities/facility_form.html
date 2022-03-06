@@ -3,19 +3,17 @@
     <ul class="flex flex-row items-center" id="kind_id">
         <li>
             <label for="id_kind_0">
-                <input type="radio" name="kind" value="phc" required id="id_kind_0" >
+                <input type="radio" name="kind" value="phc" required id="id_kind_0" {% if form.kind.value == 'phc' %} checked {% endif %} >
                 PHC
             </label>
         </li>
         <li class="ml-24">
             <label for="id_kind_1">
-                <input type="radio" name="kind" value="chc" required id="id_kind_1">
+                <input type="radio" name="kind" value="chc" required id="id_kind_1" {% if form.kind.value == 'chc' %} checked {% endif %}>
                 CHC
             </label>
         </li>
     </ul>
-
-    {% include 'components/errors.html' with errors=form.ward.errors %}
 </div>
 
 <div class="h-14 w-3/4 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
@@ -38,9 +36,7 @@
         name="{{ form.address.html_name }}" 
         rows="4"
         class="block w-[95%] leading-5 text-[16px] text-[#14142B] border-0 outline-0 p-0 pt-1 focus:ring-0"
-    >
-        {% if form.address.value %}{{form.address.value}}{% endif %}
-    </textarea>
+    >{% if form.address.value %}{{form.address.value}}{% endif %}</textarea>
     {% include 'components/errors.html' with errors=form.address.errors %}
 </div> 
 
@@ -55,7 +51,7 @@
     {% include 'components/errors.html' with errors=form.ward.errors %}
 </div>
 
-<div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white mt-3 mb-5 mr-8">
+<div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white mt-5 mb-5 mr-8">
     <label for="{{ form.pin_code.id_for_label }}" class="block text-sm text-[#6E7191] pt-[2px]">{{ form.pin_code.label }}</label>
     <input 
         type="{{ form.pin_code.widget_type }}" 
@@ -68,7 +64,7 @@
     {% include 'components/errors.html' with errors=form.pin_code.errors %}
 </div>
 
-<div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white mt-3 mb-5">
+<div class="h-14 w-[320px] inline-block pl-6 py-1 rounded-2xl bg-white mt-5 mb-5">
     <label for="{{ form.phone_number.id_for_label }}" class="block text-sm text-[#6E7191] pt-[2px]">{{ form.phone_number.label }}</label>
     <input 
         type="{{ form.phone_number.widget_type }}" 

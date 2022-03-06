@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 from arike.patients.models import Patient
-from arike.visits.models import User, VisitDetails
+from arike.visits.models import User, VisitDetail
 
 User = get_user_model()
 
@@ -46,11 +46,17 @@ class Treatment(models.Model):
 
 class TreatmentNote(models.Model):
     note = models.CharField(max_length=200)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=300, null=True, blank=True)
     treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE)
-    visit_details = models.ForeignKey(VisitDetails, on_delete=models.CASCADE)
+    visit_details = models.ForeignKey(VisitDetail, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.note
+
+    def pretty_created_date(self):
+        return self.created_at.strftime("%d %b %Y")
 
 class PatientDisease(models.Model):
     remarks = models.CharField(max_length=200, blank=True)

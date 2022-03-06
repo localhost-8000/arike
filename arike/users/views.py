@@ -43,10 +43,7 @@ class GenericUsersView(LoginRequiredMixin, ListView):
     context_object_name = "users"
 
     def get_queryset(self):
-        return User.objects.all()
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        return User.objects.filter(is_active=True, is_verified=True).exclude(pk=self.request.user.pk)
 
 
 class GenericUserCreateView(AuthorisedUserManager, CreateView):
@@ -63,7 +60,7 @@ class GenericUserCreateView(AuthorisedUserManager, CreateView):
 
         self.send_verify_and_set_password_mail(self.object)
 
-        return HttpResponseRedirect(f"/users/create/{self.object.id}/assign")
+        return HttpResponseRedirect(f"/users/create/{self.object.pk}/assign")
     
     
 

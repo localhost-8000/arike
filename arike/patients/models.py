@@ -46,7 +46,8 @@ class Patient(models.Model):
     emergency_phone_number = models.CharField(max_length=14, null=True)
     expired_time = models.DateTimeField(null=True)
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
-    facility = models.ForeignKey(Facility, on_delete=models.CASCADE)
+    facility = models.ForeignKey(Facility, on_delete=models.CASCADE) 
+    deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

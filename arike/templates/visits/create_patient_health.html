@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %} Health Info {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen py-8 px-[10%]">
+        <h1 class="text-4xl text-primary_color font-extrabold">Patient Health Information</h1>
+        <form action="" method="post" class="w-full flex flex-row flex-wrap mt-14">
+            {% csrf_token %}
+
+            <select title="Select {{ form.palliative_phase.html_name }}" name="{{ form.palliative_phase.html_name }}" id="{{form.palliative_phase.auto_id}}" required class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+                <option value="" disabled selected>Select Palliative Phase</option>
+                {% for x, y in form.palliative_phase.field.choices %} 
+                    <option value="{{ x }}" {% if form.palliative_phase.value == x %} selected {% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+            {% include 'components/errors.html' with errors=palliative_phase.errors %}
+
+            <input 
+                type="text"
+                id="{{ form.blood_pressure.auto_id }}"
+                name="{{ form.blood_pressure.html_name }}"  
+                placeholder="{{ form.blood_pressure.label }}" 
+                class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 placeholder:text-[16px] placeholder:text-grey_light focus:ring-0"
+            >
+            {% include 'components/errors.html' with errors=form.blood_pressure.errors %}
+
+            <input 
+                type="text"
+                id="{{ form.pulse.auto_id }}"
+                name="{{ form.pulse.html_name }}" 
+                placeholder="{{ form.pulse.label }}" 
+                class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 placeholder:text-[16px] placeholder:text-grey_light focus:ring-0"
+            >
+            {% include 'components/errors.html' with errors=form.pulse.errors %}
+
+            <input 
+                type="text"
+                id="{{ form.general_random_blood_sugar.auto_id }}"
+                name="{{ form.general_random_blood_sugar.html_name }}" 
+                placeholder="Blood sugar" 
+                class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 placeholder:text-[16px] placeholder:text-grey_light focus:ring-0"
+            >
+            {% include 'components/errors.html' with errors=form.general_random_blood_sugar.errors %}
+
+            <h3 class="w-full text-2xl font-bold text-primary_color my-2">Is the patient at peace?</h3>
+            <ul class="flex flex-row items-center w-full mb-4" id="kind_id">
+                <li>
+                    <label for="id_patient_at_peace_0">
+                        <input type="radio" name="patient_at_peace" value="True" required id="id_patient_at_peace_0" checked>
+                        Yes
+                    </label>
+                </li>
+                <li class="ml-24">
+                    <label for="id_patient_at_peace_1">
+                        <input type="radio" name="patient_at_peace" value="False" required id="id_patient_at_peace_1">
+                        No
+                    </label>
+                </li>
+            </ul>
+
+            <textarea 
+                name="{{ form.personal_hygiene.html_name }}" 
+                id="{{ form.personal_hygiene.auto_id }}" 
+                required
+                placeholder="Personal hygiene"
+                
+                class="min-w-[250px] w-2/5 h-32 pl-5 my-3 mr-10 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+            ></textarea>
+            {% include 'components/errors.html' with errors=form.public_hygiene.errors %}
+
+            <textarea 
+                name="{{ form.mouth_hygiene.html_name }}" 
+                id="{{ form.mouth_hygiene.auto_id }}" 
+                required
+                placeholder="Mouth hygiene"
+                class="min-w-[250px] w-2/5 h-32 pl-5 my-3 mr-10 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+            ></textarea>
+            {% include 'components/errors.html' with errors=form.mouth_hygiene.errors %}
+
+            <select title="Select {{ form.systemic_examination.html_name }}" name="{{ form.systemic_examination.html_name }}" id="{{form.systemic_examination.auto_id}}" required class="h-14 min-w-[250px] w-2/5 rounded-2xl border-0 pl-5 my-3 mr-10 focus:ring-0">
+                <option value="" disabled selected>Select Systemic Examination</option>
+                {% for x, y in form.systemic_examination.field.choices %} 
+                    <option value="{{ x }}" {% if form.systemic_examination.value == x %} selected {% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+            {% include 'components/errors.html' with errors=form.systemic_examination.errors %}
+
+            <textarea 
+                name="{{ form.note.html_name }}" 
+                id="{{ form.note.auto_id }}" 
+                required
+                placeholder="Notes"
+                class="w-[calc(80%+2.5rem)] h-32 my-4 py-3 px-5 placeholder:text-sm placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+            ></textarea>
+            {% include 'components/errors.html' with errors=form.note.errors %}
+            
+
+            {% include 'components/button.html' with btn_type="submit" btn_text="Save" %}
+        </form>
+    </div>
+{% endblock %}

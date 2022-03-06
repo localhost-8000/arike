@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Arike | Home {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen">
+        <div class="max-w-[970px] w-full mx-auto pt-12">
+            <div class="flex flex-row flex-wrap justify-between">
+                <a href="/visits" class="max-w-[430px] w-2/5 bg-white rounded-2xl px-8 py-6 my-4">
+                    <h2 class="text-lg font-bold text-primary_color">Schedule</h2>
+                    <p class="text-[15px] text-grey_dark">Schedule visits for a patient</p>
+                </a>
+                <a href="/patients" class="max-w-[430px] w-2/5 bg-white rounded-2xl px-8 py-6 my-4">
+                    <h2 class="text-lg font-bold text-primary_color">Your Patients</h2>
+                    <p class="text-[15px] text-grey_dark">Check status of your patients</p>
+                </a>
+                <a href="/visits/upcoming" class="max-w-[430px] w-2/5 bg-white rounded-2xl px-8 py-6 my-4">
+                    <h2 class="text-lg font-bold text-primary_color">Upcoming Visits</h2>
+                    <p class="text-[15px] text-grey_dark">Check details of your upcoming visits</p>
+                </a>
+                <a href="/account/{{ request.user.id }}" class="max-w-[430px] w-2/5 bg-white rounded-2xl px-8 py-6 my-4">
+                    <h2 class="text-lg font-bold text-primary_color">Your Profile</h2>
+                    <p class="text-[15px] text-grey_dark">Change your password</p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

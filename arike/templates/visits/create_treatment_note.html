@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Patient Treatment {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[10%] pt-12">
+        <h2 class="text-3xl font-extrabold text-primary_color mt-8">Add Notes</h2>
+
+        <div class="flex flex-col w-full py-6 px-8 bg-white rounded-2xl mt-8">
+            <h3 class="text-xl font-bold text-primary_color">{{ treatment.care_type }}</h3>
+            <h3 class="text-[15px] font-medium text-grey_dark">{{ treatment.care_sub_type }}</h3>
+
+            <div class="flex flex-row mt-3">
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Given By</p>
+                    <p class="text-[15px] text-primary_color">{{ treatment.given_by.get_full_name }}</p>
+                </div>
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Last updated</p>
+                    <p class="text-[15px] text-primary_color">{{ treatment.pretty_updated_date }}</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <textarea 
+                name="{{ form.note.html_name }}" 
+                id="{{ form.note.auto_id }}" 
+                required
+                placeholder="Note"
+                class="w-full h-48 mt-8 py-3 px-5 placeholder:text-[16px] placeholder:text-grey_light rounded-2xl border-0 focus:ring-0" 
+            ></textarea>
+            
+            {% include 'components/button.html' with btn_type='submit' btn_text='Add' %}
+        </form>
+
+    </div>
+{% endblock %}

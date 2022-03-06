@@ -39,13 +39,13 @@
                 </div>
             </div>
             <div class="flex flex-col justify-between">
-                <a href="" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Visits</a>
-                <a href="" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between">Treatments</a>
+                <a href="{% url 'visits:schedule_visit' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Visits</a>
+                <a href="{% url 'treatments:treatment_list' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between">Treatments</a>
             </div>
         </div>
         <div class="w-[calc(100%-25rem)] flex flex-row justify-between">
-            <a href="" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Family Details</a>
-            <a href="" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between">Disease History</a>
+            <a href="{% url 'patients:patient_family_list' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Family Details</a>
+            <a href="{% url 'treatments:disease_history_list' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between">Disease History</a>
         </div>
     </div>
 {% endblock %}

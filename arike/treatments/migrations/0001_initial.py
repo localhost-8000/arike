@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('visits', '0001_initial'),
         ('patients', '0003_auto_20220303_2033'),
     ]
 
@@ -43,7 +42,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('treatment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='treatments.treatment')),
-                ('visit_details', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='visits.visitdetails')),
             ],
         ),
         migrations.CreateModel(

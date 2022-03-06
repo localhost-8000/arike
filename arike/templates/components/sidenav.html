@@ -3,18 +3,17 @@
     <h3 class="text-2xl text-primary_color font-bold">Arike</h3>
     <div class="flex flex-col justify-between h-full">
         <ul class="mt-4 ">
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if request.path is "/" %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium3 {% endif %}"><a href="/" class="text-[16px] w-full py-2">Home</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if request.path == '/' %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium3 {% endif %}"><a href="/" class="text-[16px] w-full py-2">Home</a></li>
             <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/facilities/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/facilities" class="text-[16px] w-full py-2">Facility</a></li>
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/patients/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px] w-full py-2">Patients</a></li>
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/schedules/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px] w-full py-2">Schedules</a></li>
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/users/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/users" class="text-[16px] w-full py-2">User</a></li>
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/profile/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px] w-full py-2">Profile</a></li>
-            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/another/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="" class="text-[16px] w-full py-2">Another option</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/patients/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/patients" class="text-[16px] w-full py-2">Patients</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/visits/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/visits" class="text-[16px] w-full py-2">Schedules</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/users/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/users" class="text-[16px] w-full py-2">Users</a></li>
+            <li class="mt-2 w-[240px] h-[52px] pl-10 flex flex-row items-center justify-start {% if "/account/" in request.path %} bg-primary_color text-white rounded-2xl {% else %} text-black font-medium {% endif %}"><a href="/account/{{ request.user.id }}" class="text-[16px] w-full py-2">Profile</a></li>
         </ul>
     
         <div class="mt-2 mb-8">
             <p class="w-3/4 h-[2px] bg-primary_bg mb-4"></p>
-            <div class="flex flex-row items-center justify-start cursor-pointer" onclick="window.location.href='/account/{{ request.user.id }}'">
+            <div class="flex flex-row items-center justify-start">
                 <img class="w-12 h-12 rounded-full ml-1" src="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MXwxfHNlYXJjaHwxfHxwcm9maWxlfGVufDB8fHx8MTY0NTEyMTE1NQ&ixlib=rb-1.2.1&q=80&w=1080" alt="Profile Picture">
                 <div class="flex flex-col justify-between items-center ml-4">
                     <span>{{ request.user.get_full_name }}</span>

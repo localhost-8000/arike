@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Schedules {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-16">
+        <div class="flex flex-row justify-between py-6">
+            <h2 class="text-4xl font-extrabold text-primary_color">Schedule</h2>
+                <a href="{% url 'visits:upcoming_visits' %}" class="h-11 px-6 text-sm bg-primary_color text-white font-bold rounded-lg flex flex-row items-center justify-center">Upcoming Visits</a>
+        </div>
+
+        <div class="flex flex-row flex-wrap items-center mt-4 justify-between">
+            {% for disease in patient_diseases %}
+            <a href="{% url 'visits:schedule_visit' uid=disease.patient.id %}" class="flex flex-col min-w-[300px] w-[30%] py-5 px-6 bg-white rounded-2xl my-6">
+                <div class="flex flex-row justify-between">
+                    <h3 class="text-xl font-bold text-primary_color">{{ disease.patient }}</h3>
+                    <span class="text-[15px] text-grey_dark font-semibold pr-5">{{ disease.patient.ward }}</span>
+                </div>
+                <p class="mt-2 text-[15px] text-grey_dark font-semibold">{{ disease.disease }}</p>
+                <p class="text-[15px] text-grey_dark font-semibold">{{ disease.treatment.care_type }}</p>
+                <p class="text-[15px] text-grey_dark font-semibold">{{ disease.treatment.care_sub_type }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

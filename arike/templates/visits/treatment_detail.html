@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Patient Treatment {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[10%] pt-12">
+        <h2 class="text-3xl font-extrabold text-primary_color">Treatment</h2>
+
+        <div class="flex flex-col min-w-[440px] w-full p-6 bg-white rounded-2xl mt-10">
+            <h3 class="text-xl font-bold text-primary_color">{{ object.care_type }}</h3>
+            <h3 class="text-[15px] font-bold text-grey_dark">{{ object.pretty_created_date }}</h3>
+
+            <div class="flex flex-row mt-3">
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Given By</p>
+                    <p class="text-[15px] text-primary_color">{{ treatment.given_by.get_full_name }}</p>
+                </div>
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Last updated</p>
+                    <p class="text-[15px] text-primary_color">{{ treatment.pretty_updated_date }}</p>
+                </div>
+            </div>
+
+            <p class="text-[15px] text-grey_dark font-bold mt-2">Description</p>
+            <p class="text-[15px] text-primary_color">{{ object.description }}</p>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-primary_color mt-8">Notes</h2>
+        
+        {% for note in notes %}
+            <div class="flex flex-col w-full px-6 py-4 bg-white rounded-2xl mt-6">
+                <h3 class="text-lg font-bold text-grey_dark">By {{ note.visit_details.visit_schedule.nurse.get_full_name }}</h3>
+                <h3 class="text-[15px] font-bold text-grey_dark">{{ note.pretty_created_date }}</h3>
+                <p class="text-[15px] text-primary_color mt-2">{{ note }}</p>
+            </div> 
+        {% endfor %}
+
+    </div>
+{% endblock %}

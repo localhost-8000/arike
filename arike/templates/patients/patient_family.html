@@ -4,7 +4,7 @@
 {% block content %}
     {% include 'components/sidenav.html' %}
     <div class="ml-[320px] bg-primary_bg min-h-screen px-16">
-        {% include 'components/list_header.html' with header='Family Details' url_namespace='patients:patient_family_create' uid=view.kwargs.uid %}
+        {% include 'components/list_header.html' with header='Family Details' url_namespace='patients:patient_family_create' uid=view.kwargs.uid permission=perms.patients.add_patientfamily %}
         
         <h2 class="text-2xl font-bold text-primary_color mt-12">{{ patient }}</h2>
         <p class="text-lg text-grey_dark">{{ patient.address }}</p>
@@ -23,7 +23,7 @@
                             <p class="text-[15px] text-grey_dark font-bold mt-2">Birth Date</p>
                             <p class="text-[15px] text-primary_color">{{member.birth_date }} ({{member.age}} years)</p>
                             <p class="text-[15px] text-grey_dark font-bold mt-2">Education</p>
-                            <p class="text-[15px] text-primary_color">{{ member.education }}</p>
+                            <p class="text-[15px] text-primary_color">{{ member.get_education_display }}</p>
                         </div>
                         <div class="w-1/2">
                             <p class="text-[15px] text-link_color font-semibold">{{ member.email }}</p>

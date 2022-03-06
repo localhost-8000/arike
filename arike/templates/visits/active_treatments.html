@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Patient Treatment {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-[10%]">
+        {% include 'components/list_header.html' with header='Active Treatments' url_namespace='treatments:treatment_create' uid=view.kwargs.uid permission=perms.treatments.add_treatment %}
+        
+        <h2 class="text-2xl font-bold text-primary_color mt-12">{{ patient }}</h2>
+        <p class="text-lg text-grey_dark">{{ patient.address }}</p>
+
+        <div class="flex flex-row flex-wrap items-center mt-4 justify-between">
+            {% for treatment in treatments %}
+            <div class="flex flex-col w-full py-6 px-8 bg-white rounded-2xl my-7 cursor-pointer treatment_cont" data-treatment_details_url="{% url 'visits:treatment_details' uid=view.kwargs.uid vid=view.kwargs.vid pk=treatment.pk %}">
+                <div class="flex flex-row justify-between">
+                    <h3 class="text-xl font-bold text-primary_color">{{ treatment.care_type }}</h3>
+                    <a href="{% url 'visits:create_treatment_note' uid=view.kwargs.uid vid=view.kwargs.vid tid=treatment.pk %}" class="ml-3 bg-primary_color text-white border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-2">Add Note</a>
+                </div>
+                <h3 class="text-[16px] font-bold text-grey_dark">{{ treatment.care_sub_type }}</h3>
+
+                <div class="flex flex-row mt-3">
+                    <div class="w-1/2">
+                        <p class="text-[15px] text-grey_dark font-bold mt-2">Given By</p>
+                        <p class="text-[15px] text-primary_color">{{ treatment.given_by.get_full_name }}</p>
+                    </div>
+                    <div class="w-1/2">
+                        <p class="text-[15px] text-grey_dark font-bold mt-2">Last updated</p>
+                        <p class="text-[15px] text-primary_color">{{ treatment.pretty_updated_date }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.treatment_cont').click(function() {
+            window.location.href = $(this).data('treatment_details_url');
+        });
+    });
+</script>
+ {% endblock %}
