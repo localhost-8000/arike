@@ -5,7 +5,7 @@ from arike.home.views import (
     DashboardView,
     UserLoginView,
     UserProfileWithPasswordChangeView,
-    UserVerifyAndUpdatePasswordView,
+    UserVerifyAndSetPasswordView,
 )
 
 app_name = "home"
@@ -15,5 +15,5 @@ urlpatterns = [
     path("login", UserLoginView.as_view(), name="login_user"),
     path("logout", LogoutView.as_view(), name="logout_user"),
     path("account/<pk>", UserProfileWithPasswordChangeView.as_view(), name="user_profile"),
-    path("account/verify/<str:uid>/<uuid:token>", UserVerifyAndUpdatePasswordView.as_view(), name="verify_user"),
+    path("account/verify/<str:uid>/<uuid:token>", UserVerifyAndSetPasswordView.as_view(), name="verify_user"),
 ]

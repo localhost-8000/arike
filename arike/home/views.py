@@ -37,7 +37,7 @@ class UserProfileWithPasswordChangeView(PasswordChangeView):
         context['object'] = User.objects.get(pk=self.kwargs['pk'])
         return context
 
-class UserVerifyAndUpdatePasswordView(UpdateView):
+class UserVerifyAndSetPasswordView(UpdateView):
     form_class = SetPasswordForm
     template_name = 'home/user_verify_update.html'
     success_url = '/login'
@@ -48,7 +48,7 @@ class UserVerifyAndUpdatePasswordView(UpdateView):
 
         if (not uid in self.request.session) or (self.request.session[uid] != str(token)):
             return HttpResponseNotAllowed("You are not allowed to access this page!")
-        
+        print('token is present', self.request.session[uid])
         return super().get(request, *args, **kwargs)
 
     def get_object(self):
