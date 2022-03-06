@@ -3,42 +3,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    path(
-        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
-    ),
-    # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
-    # User management
+    path('', include('home.urls')),
     path("users/", include("arike.users.urls", namespace="users")),
     path("facilities/", include("arike.facilities.urls", namespace="facilities")),
-    # path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
-    path("__reload__/", include("django_browser_reload.urls")),
-    path('', include('home.urls')),
     path('patients/', include('patients.urls', namespace="patients")),
     path('patients/', include('treatments.urls', namespace='treatments')),
     path('visits/', include('visits.urls', namespace='visits')),
+    path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# API URLS
-urlpatterns += [
-    # API base url
-    path("api/", include("config.api_router")),
-    # DRF auth token
-    path("auth-token/", obtain_auth_token),
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
-    ),
-]
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
