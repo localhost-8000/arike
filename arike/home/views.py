@@ -64,6 +64,7 @@ class UserVerifyAndUpdatePasswordView(UpdateView):
         # Set the new password
         password = form.cleaned_data['new_password1']
         self.object.set_password(password)
+        self.object.is_verified = True
         self.object.save()
 
         # Delete the uid and token from the session
