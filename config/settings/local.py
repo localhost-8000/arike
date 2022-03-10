@@ -69,3 +69,4 @@ CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
