@@ -2,14 +2,14 @@
     <div class="flex flex-row w-full justify-between">
         <div class="">
             <p class="text-[15px] text-grey_dark font-semibold">Visit By</p>
-            <p class="text-sm text-primary_color">Alex</p>
+            <p class="text-sm text-primary_color">{{ object.nurse }}</p>
         </div>
         <div class="">
             <p class="text-[15px] text-grey_dark font-semibold">Visit Date</p>
-            <p class="text-sm text-primary_color">22 Mar 2021</p>
+            <p class="text-sm text-primary_color">{{ object.date }}</p>
         </div>
     </div>
     <div class="mt-5 flex flex-row">
-        {% include 'components/buttons/contained_small.html' with url='' text='View Details' %}
+        <a href="{% url 'patients:patient_visit_history_detail' uid=object.patient.pk pk=object.pk %}" class="ml-1 bg-primary_color text-white border-2 border-primary_color rounded-lg text-sm font-semibold px-7 py-[6px]">View Details</a>
     </div>
 </div>

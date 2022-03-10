@@ -10,11 +10,9 @@
         <p class="text-lg text-grey_dark font-medium max-w-[350px]">Kauriya Bazar, Gonda</p>
 
         <div class="w-full flex flex-row flex-wrap mt-8">
-            {% include 'patients/visit_history_card.html' %}
-            {% include 'patients/visit_history_card.html' %}
-            {% include 'patients/visit_history_card.html' %}
-            {% include 'patients/visit_history_card.html' %}
-            {% include 'patients/visit_history_card.html' %}
+            {% for visit in visit_histories %}
+                {% include 'patients/visit_history_card.html' with object=visit %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

@@ -7,6 +7,8 @@ from arike.patients.views import (
     PatientFamilyDeleteView,
     PatientFamilyListView,
     PatientFamilyUpdateView,
+    PatientVisitHistoryDetailView,
+    PatientVisitHistoryView,
     PatientsListView,
     PatientUpdateView,
 )
@@ -22,4 +24,6 @@ urlpatterns = [
     path('<int:uid>/family/create', PatientFamilyCreateView.as_view(), name='patient_family_create'),
     path('<int:uid>/family/delete/<pk>', PatientFamilyDeleteView.as_view(), name='patient_family_detail'),
     path('<int:uid>/family/update/<pk>', PatientFamilyUpdateView.as_view(), name='patient_family_update'),
+    path('<int:uid>/visit/history', PatientVisitHistoryView.as_view(), name="patient_visit_history"),
+    path('<int:uid>/visit/detail/<pk>', PatientVisitHistoryDetailView.as_view(), name="patient_visit_history_detail")
 ]

@@ -24,7 +24,7 @@
                         <span class="text-[15px] text-primary_color">{{ object.gender }}</span>
 
                         <h4 class="text-[15px] text-grey_dark font-bold mt-2">Last Visit</h4>
-                        <span class="text-[15px] text-primary_color">2 March 2022 @ 11am</span>
+                        <span class="text-[15px] text-primary_color">{{ last_visit }}</span>
                     </div>
                     <div class="">
                         <h4 class="text-[15px] text-grey_dark font-bold">Emergency Phone Number</h4>
@@ -34,12 +34,12 @@
                         <span class="text-[15px] text-primary_color">{{ object.facility }}</span>
 
                         <h4 class="text-[15px] text-grey_dark font-bold mt-2">Next Visit</h4>
-                        <span class="text-[15px] text-primary_color">2 April 2022 @ 11am</span>
+                        <span class="text-[15px] text-primary_color">{{ next_visit }}</span>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col justify-between">
-                <a href="{% url 'visits:schedule_visit' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Visits</a>
+                <a href="{% url 'patients:patient_visit_history' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between text-center">Visits</a>
                 <a href="{% url 'treatments:treatment_list' uid=object.pk %}" class="text-2xl text-primary_color bg-white font-bold rounded-2xl py-14 px-20 justify-between">Treatments</a>
             </div>
         </div>

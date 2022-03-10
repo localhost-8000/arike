@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} Visit Details {% endblock %}
+
+{% block content %}
+    {% include 'components/sidenav.html' %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-16 pt-12">
+
+        <h1 class="text-4xl text-primary_color font-extrabold">Visit History</h1>
+        <h2 class="text-2xl font-bold text-primary_color mt-12">{{ object.visit_schedule.patient }}</h2>
+        <p class="text-lg text-grey_dark">{{ object.visit_schedule.patient.address }}</p>
+
+        <h2 class="text-2xl font-bold text-primary_color mt-12">Health Information</h2>
+
+  
+        <div class="flex flex-col max-w-[720px] w-[95%] py-3 px-6 bg-white rounded-2xl my-4">
+            <div class="flex flex-row">
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold">Palliative Phase</p>
+                    <p class="text-[15px] text-primary_color">{{ object.palliative_phase }}</p>
+                </div>
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold">Blood Pressure</p>
+                    <p class="text-[15px] text-primary_color">{{ object.blood_pressure|default:'N/A'}}</p>
+                </div>
+            </div>
+
+            <p class="text-[15px] text-grey_dark font-bold">Pulse</p>
+            <p class="text-[15px] text-primary_color">{{ object.pulse }}</p>
+
+            <div class="flex flex-row mt-3">
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Personal hygiene</p>
+                    <p class="text-[15px] text-primary_color">{{ object.personal_hygiene }}</p>
+                </div>
+                <div class="w-1/2">
+                    <p class="text-[15px] text-grey_dark font-bold mt-2">Mouth hygiene</p>
+                    <p class="text-[15px] text-primary_color">{{ object.mouth_hygiene}}</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-primary_color mt-8">Notes</h2>
+
+        {% for note in notes %}
+            <div class="flex flex-col w-full px-6 py-4 bg-white rounded-2xl mt-6">
+                <h2 class="text-xl font-bold text-primary_color">{{ note.treatment.care_type }}</h2>
+                <h3 class="text-[15px] font-bold text-grey_dark">By:- {{ note.visit_details.visit_schedule.nurse.get_full_name }}</h3>
+                <h3 class="text-[15px] font-bold text-grey_dark">{{ note.pretty_created_date }}</h3>
+                <p class="text-[15px] text-primary_color mt-2">{{ note }}</p>
+            </div> 
+        {% endfor %}
+        
+    </div>
+{% endblock %}
