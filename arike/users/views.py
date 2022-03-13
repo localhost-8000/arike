@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
-from django.contrib.sites.shortcuts import get_current_site
+from django.db import IntegrityError
 from django.db.models import Q
 from django.http import (
     HttpResponseBadRequest,
@@ -20,6 +20,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from arike.facilities.models import Facility
+from arike.users.filters import UsersFilter
 from arike.users.forms import UserCreateForm, UserFacilityAssignForm
 from arike.users.token import account_activation_token
 
@@ -48,20 +49,31 @@ class GenericUsersView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return User.objects.filter(is_active=True, is_verified=True).exclude(pk=self.request.user.pk)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = UsersFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
 
 class GenericUserCreateView(AuthorisedUserManager, CreateView):
     permission_required = "users.add_user"
     form_class = UserCreateForm
     template_name = "users/create_user.html"
     
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.set_password(form.cleaned_data["email"])
-        self.object.username = form.cleaned_data["email"]
-        self.object.is_active = False
-        self.object.save()
+    def get_success_url(self):
+        return f"/users/create/{self.object.pk}/assign"
 
-        return HttpResponseRedirect(f"/users/create/{self.object.pk}/assign")
+    def form_valid(self, form):
+        try:
+            self.object = form.save(commit=False)
+            self.object.set_password(form.cleaned_data["email"])
+            self.object.username = form.cleaned_data["email"]
+            self.object.is_active = False
+            self.object.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+        except IntegrityError:
+            return HttpResponseBadRequest(f"Email {form.cleaned_data['email']} already exists!")
 
 
 class GenericUserUpdateView(AuthorisedUserManager, UpdateView):

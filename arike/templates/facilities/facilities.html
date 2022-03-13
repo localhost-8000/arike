@@ -4,7 +4,7 @@
 
 {% block content %}
     {% include 'components/sidenav.html' %}
-    <div class="ml-[320px] bg-primary_bg h-screen px-12">
+    <div class="ml-[320px] bg-primary_bg min-h-screen px-12">
         <div class="max-w-[1000px] w-full mx-auto">
 
         {% include 'components/list_header.html' with header='Facilities' url_namespace='facilities:create_facility' uid='' permission=perms.facilities.add_facility %}

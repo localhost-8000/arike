@@ -3,10 +3,11 @@
 
 {% block content %}
     {% include 'components/sidenav.html' %} 
-    <div class="ml-[320px] bg-primary_bg min-h-screen px-[20%] flex flex-col">
+    <div class="ml-[320px] bg-primary_bg min-h-screen">
+        <div class="max-w-[900px] w-full mx-auto">
         {% include 'components/details_header.html' with object_name=object.get_full_name object_id=object.id %}
 
-        <h4 class="text-2xl font-bold text-primary_color mt-14 mb-3">Profile</h4>
+        <h4 class="text-2xl font-bold text-primary_color mt-4 mb-3">Profile</h4>
         
         <div class="w-full flex flex-row flex-wrap justify-between">
             <div class="h-14 w-2/5 inline-block pl-6 py-1 rounded-2xl bg-white my-4 mr-10">
@@ -38,6 +39,6 @@
         <div class="h-14 w-2/5 flex flex-row items-center justify-start rounded-2xl bg-white pl-6">
             <span class="text-[16px] font-medium text-primary_color">{{ object.pretty_role }}</span>
         </div>
-
+        </div>
     </div>
 {% endblock %}
