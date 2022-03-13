@@ -1,14 +1,60 @@
 {% extends 'base.html' %}
+{% load facility_extras %} 
 {% block title %} Facilities {% endblock %}
 
 {% block content %}
     {% include 'components/sidenav.html' %}
     <div class="ml-[320px] bg-primary_bg h-screen px-12">
+        <div class="max-w-[1000px] w-full mx-auto">
+
         {% include 'components/list_header.html' with header='Facilities' url_namespace='facilities:create_facility' uid='' permission=perms.facilities.add_facility %}
-        <div class="flex flex-row flex-wrap items-center">
-            {% for facility in facilities %} 
+        <form method="get" class="max-w-[700px] w-full px-6 py-5 bg-white rounded-xl">
+            <h2 class="text-xl font-extrabold text-primary_color">Filters</h2>
+            <div class="flex flex-row flex-wrap gap-5 py-5">
+                <div class="w-full my-2">
+                    <label for="id_search" class="absolute p-0 border-0 h-px w-px overflow-hidden">Search facility</label>
+                    <input 
+                        type="text"  
+                        id="id_search" 
+                        name="search" 
+                        {% if request.GET.search %} value="{{ request.GET.search }}" {% endif %}
+                        placeholder="Search facilities"
+                        class="min-w-60 w-1/2 h-12 rounded-xl px-4 border-2 outline-0 text-[16px] focus:ring-0"
+                    >
+                </div>
+                <select name="{{filter.form.ward.html_name}}" id="{{filter.form.ward.auto_id}}" class="max-w-[200px] w-4/12 h-12 border-2 rounded-lg bg-white pl-5 focus:ring-0">
+                    <option value="" disabled selected class="pl-4 text-[#6E7191]">Ward</option>
+                    {% for x, y in filter.form.fields.ward.choices %} 
+                        <option value="{{ x }}" {% if filter.form.ward.value == x|slugify %} selected {% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="{{filter.form.kind.html_name}}" id="{{filter.form.kind.auto_id}}" class="max-w-[200px] w-4/12 h-12 border-2 rounded-lg bg-white pl-5 focus:ring-0">
+                    <option value="" disabled selected class="pl-4 text-[#6E7191]">Kind</option>
+                    {% for x, y in filter.form.fields.kind.choices %} 
+                        <option value="{{ x }}" {% if filter.form.kind.value == x %} selected {% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button 
+                type="submit" 
+                class="w-28 py-3 rounded-[12px] bg-primary_color text-[16px] font-semibold text-white tracking-wider"
+            >
+                Apply
+            </button>
+        </form>
+        <div class="flex gap-4 mt-8">
+            {% with kind=request.GET.kind wardId=request.GET.ward search=request.GET.search %}
+                {% if kind %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">Kind {{ kind|upper }}</div>{% endif %}
+                {% if wardId %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">Ward {{ wardId|ward_name }}</div>{% endif %}
+                {% if search %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">Search "{{ search }}"</div>{% endif %}
+            {% endwith %}
+        </div>
+        <div class="flex flex-row flex-wrap items-center justify-between">
+            {% for facility in filter.qs %} 
                 {% include 'components/facility_card.html' with facility=facility %}
             {% endfor %}
+        </div>
         </div>
     </div>
 {% endblock %}

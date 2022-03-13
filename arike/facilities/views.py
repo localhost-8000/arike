@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from arike.facilities.filters import FacilityFilter
 
 from arike.facilities.forms import FacilityCreateForm
 from arike.facilities.models import Facility
@@ -20,6 +21,11 @@ class GenericFacilitiesView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Facility.objects.filter(deleted=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = FacilityFilter(self.request.GET, queryset=self.get_queryset())
+        return context 
 
 class GenericFacilityCreateView(AuthorisedFacilityManager, CreateView):
     permission_required = "facilities.add_facility"
