@@ -37,13 +37,13 @@
             <form method="get" id="collapsible_form" class="overflow-hidden max-w-[700px] w-full px-6 bg-white rounded-bl-xl rounded-br-xl max-h-0 transition-all ease-out delay-200">
                 <div class="flex flex-row flex-wrap gap-5 py-5">
                     <div class="w-full my-2">
-                        <label for="id_search" class="absolute p-0 border-0 h-px w-px overflow-hidden">Search facility</label>
+                        <label for="id_search" class="absolute p-0 border-0 h-px w-px overflow-hidden">Search users</label>
                         <input 
                             type="text"  
                             id="id_search" 
                             name="search" 
                             {% if request.GET.search %} value="{{ request.GET.search }}" {% endif %}
-                            placeholder="Search facilities"
+                            placeholder="Search users"
                             class="min-w-60 w-1/2 h-12 rounded-xl px-4 border-2 outline-0 text-[16px] focus:ring-0"
                         >
                     </div>

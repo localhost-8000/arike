@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from arike.patients.filters import PatientFilter
 from arike.patients.forms import PatientCreationForm, PatientFamilyCreationForm
 
 from arike.patients.models import Patient, PatientFamily
@@ -21,6 +22,11 @@ class PatientsListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Patient.objects.filter(deleted=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = PatientFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
 class PatientCreateView(AuthorisedPatientManager, CreateView):
     permission_required = "patients.add_patient"

@@ -1,14 +1,107 @@
 {% extends 'base.html' %}
+{% load facility_extras %} 
+{% load users_extras %}
+
 {% block title %} Patients {% endblock %}
+
+{% block styling %}
+<style>
+    #collapsible_btn:after {
+        content: '\02795';
+        font-size: 15px;
+        color: white;
+        float: right;
+        margin-left: 8px;
+    }
+    .active_button {
+        background-color: #e4e4e4;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .active_button#collapsible_btn:after {
+        content: "\2796";
+    }
+    .active_form {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding-bottom: 2rem;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
     {% include 'components/sidenav.html' %}
-    <div class="ml-[320px] bg-primary_bg h-screen px-12">
-        {% include 'components/list_header.html' with header='Patients' url_namespace='patients:patient_create' uid='' permission=perms.patients.add_patient %}
-        <div class="flex flex-row flex-wrap items-center">
-            {% for patient in patients %}
-                {% include 'patients/patient_card.html' with patient=patient %}
-            {% endfor %}
+    <div class="ml-[320px] bg-primary_bg min-h-screen">
+        <div class="max-w-[1000px] w-full mx-auto">
+            {% include 'components/list_header.html' with header='Patients' url_namespace='patients:patient_create' uid='' permission=perms.patients.add_patient %}
+
+            <button type="button" id="collapsible_btn" class="max-w-[700px] w-full py-4 px-6 rounded-xl bg-white text-left text-xl font-extrabold text-primary_color border-0 outline-0 cursor-pointer hover:bg-[#e4e4e4]">Apply Filters</button>
+                <form method="get" id="collapsible_form" class="overflow-hidden max-w-[700px] w-full px-6 bg-white rounded-bl-xl rounded-br-xl max-h-0 transition-all ease-out delay-200">
+                    <div class="flex flex-row flex-wrap gap-5 py-5">
+                        <div class="w-full my-2">
+                            <label for="id_search" class="absolute p-0 border-0 h-px w-px overflow-hidden">Search patients</label>
+                            <input 
+                                type="text"  
+                                id="id_search" 
+                                name="search" 
+                                {% if request.GET.search %} value="{{ request.GET.search }}" {% endif %}
+                                placeholder="Search patients"
+                                class="min-w-60 w-1/2 h-12 rounded-xl px-4 border-2 outline-0 text-[16px] focus:ring-0"
+                            >
+                        </div>
+                        <select name="{{filter.form.ward.html_name}}" id="{{filter.form.ward.auto_id}}" class="max-w-[200px] w-4/12 h-12 border-2 rounded-lg bg-white pl-5 focus:ring-0">
+                            <option value="" disabled selected class="pl-4 text-[#6E7191]">Ward</option>
+                            {% for x, y in filter.form.fields.ward.choices %} 
+                                <option value="{{ x }}" {% if filter.form.ward.value == x|slugify %} selected {% endif %}>{{ y }}</option>
+                            {% endfor %}
+                        </select>
+        
+                        <select name="{{filter.form.facility.html_name}}" id="{{filter.form.facility.auto_id}}" class="max-w-[200px] w-4/12 h-12 border-2 rounded-lg bg-white pl-5 focus:ring-0">
+                            <option value="" disabled selected class="pl-4 text-[#6E7191]">Facility</option>
+                            {% for x, y in filter.form.fields.facility.choices %} 
+                                <option value="{{ x }}" {% if filter.form.facility.value == x|slugify %} selected {% endif %}>{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-28 py-3 rounded-[12px] bg-primary_color text-[16px] font-semibold text-white tracking-wider"
+                    >
+                        Apply
+                    </button>
+                </form>
+                <div class="flex gap-4 mt-8">
+                    {% with wardId=request.GET.ward facilityId=request.GET.facility search=request.GET.search %}
+                        {% if wardId %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">Ward "{{ wardId|ward_name }}"</div>{% endif %}
+                        {% if facilityId %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">{{ facilityId|get_facility }}</div>{% endif %}
+                        {% if search %}<div class="text-sm py-1 px-6 bg-primary_color text-white rounded-lg">Search "{{ search }}"</div>{% endif %}
+                    {% endwith %}
+                </div>
+            
+            <div class="flex flex-row flex-wrap items-center">
+                {% for patient in filter.qs %}
+                    {% include 'patients/patient_card.html' with patient=patient %}
+                {% endfor %}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block scripts %} 
+<script>
+    const collapsible_btn = document.getElementById("collapsible_btn");
+    
+    collapsible_btn.addEventListener("click", () => {
+        const collapsible_form = document.getElementById("collapsible_form");
+        collapsible_form.classList.toggle("active_form");
+        collapsible_btn.classList.toggle("active_button");
+
+        if(collapsible_form.style.maxHeight) {
+            collapsible_form.style.maxHeight = null;
+        } else {
+            collapsible_form.style.maxHeight = `calc(${collapsible_form.scrollHeight}px + 2rem)`;
+        }
+    })
+</script>
 {% endblock %}
